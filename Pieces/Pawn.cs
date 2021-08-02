@@ -1,4 +1,6 @@
-﻿namespace ChessGame.Pieces
+﻿using System.Drawing;
+
+namespace ChessGame.Pieces
 {
     public class Pawn : APiece
     {
@@ -9,5 +11,11 @@
             
         }
 
+        public override Bitmap GetImage()
+        {
+            Bitmap b = new Bitmap(60, 60);
+            Graphics.FromImage(b).FillRectangle(Brushes.Green, 10, 10, 40, 40);
+            return b;
+        }
     }
 }

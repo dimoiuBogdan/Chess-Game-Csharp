@@ -1,5 +1,8 @@
-﻿using System;
+﻿using ChessGame.Pieces;
+using System;
+using System.Collections.Generic;
 using System.Drawing;
+using System.Reflection;
 using System.Windows.Forms;
 
 namespace ChessGame
@@ -7,6 +10,7 @@ namespace ChessGame
     public class Board : Panel
     {
         public int CellSize { get; set; }
+        public object Enviroment { get; private set; }
         private const int Border = 0;
         private BoardLayout Layout;
 
@@ -23,7 +27,7 @@ namespace ChessGame
 
         public void Cleanup()
         {
-            if(Layout != null)
+            if (Layout != null)
             {
                 Layout.Cleanup();
                 Layout = null;
@@ -49,17 +53,10 @@ namespace ChessGame
 
         public void DrawPieces(Graphics g)
         {
-            CellSize = Width / 8;
-            Pen greenPen = new(Color.Green, 5);
-            foreach (var piece in Layout)
+            foreach (var coordinate in Layout.Keys)
             {
-                var centeredX = piece.Key.X * CellSize + CellSize / 8;
-                var centeredY = piece.Key.Y * CellSize + CellSize / 8;
-                Rectangle rect = new(centeredX, centeredY, CellSize - 20, CellSize - 20);
-
-                g.DrawEllipse(greenPen, rect);
+                g.DrawImage(Layout[coordinate].GetImage(), coordinate.X * CellSize, coordinate.Y * CellSize, CellSize, CellSize);
             }
-            // Desenam piesele grafic in functie de datele din Layout
         }
 
         public void Reshape(int parentWidth, int parentHeight, int menuStripHeight)

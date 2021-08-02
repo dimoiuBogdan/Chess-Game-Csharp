@@ -17,6 +17,11 @@ namespace ChessGame
 
         public static Coordinate GetInstance(int x, int y)
         {
+            if(x < 0 || x > 7 || y < 0 || y > 7)
+            {
+                throw new System.Exception("Invalid coordinates");
+            }
+
             if (_coordinatePool == null)
             {
                 _coordinatePool = new Dictionary<int, Dictionary<int, Coordinate>>();

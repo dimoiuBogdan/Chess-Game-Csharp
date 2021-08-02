@@ -11,9 +11,9 @@ namespace ChessGame.Pieces
 
         }
 
-        public override Bitmap GetImage()
+        public override Bitmap GetImage(int coordinateY)
         {
-            throw new System.NotImplementedException();
+            return chessPiecesImage.Clone(new Rectangle(180, coordinateY < 2 ? 0 : 60, 60, 60), chessPiecesImage.PixelFormat);
         }
     }
 }

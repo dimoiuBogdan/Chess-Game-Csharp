@@ -1,5 +1,4 @@
 ﻿using ChessGame.Pieces;
-using System;
 using System.Drawing;
 using System.Reflection;
 
@@ -17,11 +16,7 @@ namespace ChessGame
             this.Color = color;
         }
 
-        public abstract Bitmap GetImage();
+        public abstract Bitmap GetImage(int coordinateY);
 
     }
 }
-// Clasa abstracta piece ( culoare si type ) + cele derivate : x
-// Enum pentru culoare si type : x
-// Piece factory ( pattern factory )
-// Bitmap cu poze

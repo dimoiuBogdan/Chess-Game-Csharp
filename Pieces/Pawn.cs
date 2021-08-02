@@ -8,14 +8,12 @@ namespace ChessGame.Pieces
 
         public Pawn(PieceColor color) : base(color)
         {
-            
+
         }
 
-        public override Bitmap GetImage()
+        public override Bitmap GetImage(int coordinateY)
         {
-            Bitmap b = new Bitmap(60, 60);
-            Graphics.FromImage(b).FillRectangle(Brushes.Green, 10, 10, 40, 40);
-            return b;
+            return chessPiecesImage.Clone(new Rectangle(300, coordinateY < 2 ? 0 : 60, 60, 60), chessPiecesImage.PixelFormat);
         }
     }
 }

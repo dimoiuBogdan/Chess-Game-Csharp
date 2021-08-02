@@ -33,7 +33,7 @@ namespace ChessGame
             }
 
             // Logic to add the backline pieces
-            int yCoord, boardSize = 8;
+            int yCoord, boardSize = 7; // starting from 0
             var pieceTypeValues = Enum.GetValues(typeof(PieceType));
             PieceColor Color;
             for (int xTypeCoord = 0; xTypeCoord < pieceTypeValues.Length - 1; xTypeCoord++)

@@ -50,10 +50,13 @@ namespace ChessGame
         public void DrawPieces(Graphics g)
         {
             CellSize = Width / 8;
-            foreach(var piece in Layout)
+            Pen greenPen = new(Color.Green, 5);
+            foreach (var piece in Layout)
             {
-                Rectangle rect = new(0, 0, CellSize, CellSize);
-                Pen greenPen = new(Color.Green, 3);
+                var centeredX = piece.Key.X * CellSize + CellSize / 8;
+                var centeredY = piece.Key.Y * CellSize + CellSize / 8;
+                Rectangle rect = new(centeredX, centeredY, CellSize - 20, CellSize - 20);
+
                 g.DrawEllipse(greenPen, rect);
             }
             // Desenam piesele grafic in functie de datele din Layout

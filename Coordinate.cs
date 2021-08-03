@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace ChessGame
 {
@@ -9,7 +10,7 @@ namespace ChessGame
 
         private static Dictionary<int, Dictionary<int, Coordinate>> _coordinatePool;
 
-        private Coordinate(int x, int y)
+        public Coordinate(int x, int y)
         {
             this.X = x;
             this.Y = y;
@@ -19,7 +20,7 @@ namespace ChessGame
         {
             if(x < 0 || x > 7 || y < 0 || y > 7)
             {
-                throw new System.Exception("Invalid coordinates");
+                throw new Exception("Invalid coordinates");
             }
 
             if (_coordinatePool == null)
@@ -38,6 +39,11 @@ namespace ChessGame
             }
 
             return _coordinatePool[x][y];
+        }
+
+        public override string ToString()
+        {
+            return $"X: {X}, Y: {Y}";
         }
     }
 }

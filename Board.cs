@@ -1,18 +1,21 @@
-﻿using System;
+﻿using ChessGame.Pieces;
 using System.Drawing;
-using System.IO;
 using System.Windows.Forms;
 
 namespace ChessGame
 {
     public class Board : Panel
     {
-        public int CellSize { get; set; }
-        public object Enviroment { get; private set; }
         private const int Border = 3;
+        private Pen borderPen = new(Color.Green, 3);
+        public Rectangle Rect;
         private BoardLayout Layout;
-        public EventHandler mouseOverEvent;
 
+        public int CellSize { get; set; }
+        public Coordinate TargetCoordinates { get; set; }
+        public Coordinate InitialCoordiantes { get; set; }
+        public APiece TargetedPiece { get; set; }
+        public PieceColor TeamToMove = PieceColor.White;
 
         public Board()
         {
@@ -23,6 +26,57 @@ namespace ChessGame
         {
             Layout = new BoardLayout();
             Layout?.Initialize();
+
+            this.MouseMove += Board_MouseMove;
+            this.MouseDown += Board_MouseDown;
+            this.MouseUp += Board_MouseUp;
+
+            DoubleBuffered = true;
+        }
+
+        private void Board_MouseUp(object sender, MouseEventArgs e)
+        {
+            this.Cursor = Cursors.Default;
+
+            // if(Coordinates.GetInstance(TargetCoordinates.X, TargetCoordinates.Y) nu da eroare )
+            Layout.Move(TargetedPiece, InitialCoordiantes, TargetCoordinates);
+
+            Refresh();
+        }
+
+        private void Board_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (Layout.ContainsKey(TargetCoordinates))
+            {
+                InitialCoordiantes = TargetCoordinates;
+
+                this.Cursor = new Cursor(Layout[TargetCoordinates].GetImage().GetHicon());
+
+                TargetedPiece = Layout[InitialCoordiantes];
+
+                Layout.Remove(InitialCoordiantes);
+
+                Refresh();
+            }   
+        }
+
+        private void Board_MouseMove(object sender, MouseEventArgs e)
+        {
+            // if(Coordinates.GetInstance(TargetCoordinates.X, TargetCoordinates.Y) nu da eroare )
+            if ((e.X / CellSize < 8 && e.Y / CellSize < 8) && (e.X / CellSize != TargetCoordinates?.X || e.Y / CellSize != TargetCoordinates?.Y))
+            {
+                TargetCoordinates = Coordinate.GetInstance(e.X / CellSize, e.Y / CellSize);
+
+                if (Layout.ContainsKey(TargetCoordinates))
+                {
+                    borderPen.Color = Color.Green;
+                }
+                else
+                {
+                    borderPen.Color = Color.Red;
+                }
+                Refresh();
+            }
         }
 
         public void Cleanup()
@@ -38,11 +92,7 @@ namespace ChessGame
         {
             DrawBoard(e.Graphics);
             DrawPieces(e.Graphics);
-        }
-
-        public void onMouseOver()
-        {
-            mouseOverEvent.Invoke(this, EventArgs.Empty);
+            DrawHoveredCellBorder(e.Graphics);
         }
 
         public void DrawBoard(Graphics g)
@@ -66,11 +116,17 @@ namespace ChessGame
             }
         }
 
+        public void DrawHoveredCellBorder(Graphics g)
+        {
+            if (TargetCoordinates != null)
+            {
+                g.DrawRectangle(borderPen, TargetCoordinates.X * CellSize, TargetCoordinates.Y * CellSize, CellSize, CellSize);
+            }
+        }
+
         public void Reshape(int parentWidth, int parentHeight, int menuStripHeight)
         {
-            // Lucram pe inaltime ( y mijloc , x 0 )
             bool widthIsSmaller = parentWidth <= parentHeight - menuStripHeight;
-            // Lucram pe latime ( y 0 , x mijloc )
 
             var boardSize = widthIsSmaller ? parentWidth - 3 * Border : parentHeight - menuStripHeight / 3 - 6 * Border;
 
@@ -88,5 +144,3 @@ namespace ChessGame
 // Evenimente
 // Afisam intr-un fisier coordonatele on hover ( cand se schimba )
 // Creez border pentru piesa la care ii dau hover ( cand se schimba )
-
-// 1. On Hover, write coordinates in a file ( on change )

@@ -1,4 +1,4 @@
-﻿using System.Drawing;
+﻿using System.Collections.Generic;
 
 namespace ChessGame.Pieces
 {
@@ -8,5 +8,15 @@ namespace ChessGame.Pieces
         {
 
         }
+
+        /*public override List<Coordinate> GetAvailableMoves(Coordinate initialCoordinates)
+        {
+            List<Coordinate> availableMoves = new();
+
+            AvailableMoves.Add(initialCoordinates);
+            AvailableMoves.Add(new Coordinate(initialCoordinates.X, initialCoordinates.Y + 2));
+
+            return AvailableMoves;
+        }*/
     }
 }

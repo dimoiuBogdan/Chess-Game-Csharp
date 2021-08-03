@@ -16,21 +16,9 @@ namespace ChessGame
         {
             for (var i = 0; i < 8; i++)
             {
-                    Add(Coordinate.GetInstance(i, 6), PieceFactory.GetInstance(PieceType.Pawn, PieceColor.White));
-                    Add(Coordinate.GetInstance(i, 1), PieceFactory.GetInstance(PieceType.Pawn, PieceColor.Black));
+                Add(Coordinate.GetInstance(i, 6), PieceFactory.GetInstance(PieceType.Pawn, PieceColor.White));
+                Add(Coordinate.GetInstance(i, 1), PieceFactory.GetInstance(PieceType.Pawn, PieceColor.Black));
             }
-            var enumValues = Enum.GetValues(typeof(PieceType));
-
-            // 2 3 4 0 1 - 4 3 2
-            // 0 1 2 3 4 - 5 6 7
-            /*
-            for (var i = 0; i < 8; i++)
-            {
-                var test = (PieceType)(i < 5 ? (i + 2) % 5 : i % 4);
-                Add(Coordinate.GetInstance(i, 0), PieceFactory.GetInstance(test, PieceColor.Black));
-                Add(Coordinate.GetInstance(i, 7), PieceFactory.GetInstance(test, PieceColor.White));
-            }
-            */
 
             Add(Coordinate.GetInstance(0, 0), PieceFactory.GetInstance(PieceType.Rook, PieceColor.Black));
             Add(Coordinate.GetInstance(1, 0), PieceFactory.GetInstance(PieceType.Knight, PieceColor.Black));
@@ -49,6 +37,20 @@ namespace ChessGame
             Add(Coordinate.GetInstance(5, 7), PieceFactory.GetInstance(PieceType.Bishop, PieceColor.White));
             Add(Coordinate.GetInstance(6, 7), PieceFactory.GetInstance(PieceType.Knight, PieceColor.White));
             Add(Coordinate.GetInstance(7, 7), PieceFactory.GetInstance(PieceType.Rook, PieceColor.White));
+        }
+
+        public void Move(APiece details, Coordinate initialCoordinates, Coordinate targetCoordinates)
+        {
+            if (true) // Aici vine conditia de miscare pentru fiecare piesa
+            {
+                Remove(targetCoordinates);
+
+                Add(Coordinate.GetInstance(targetCoordinates.X, targetCoordinates.Y), PieceFactory.GetInstance(details.Type, details.Color));
+            } 
+            else
+            {
+                Add(Coordinate.GetInstance(initialCoordinates.X, initialCoordinates.Y), PieceFactory.GetInstance(details.Type, details.Color));
+            }
         }
 
         public void Cleanup()

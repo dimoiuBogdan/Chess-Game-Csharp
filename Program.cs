@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Windows.Forms;
 
 namespace ChessGame
@@ -11,6 +12,8 @@ namespace ChessGame
         [STAThread]
         static void Main()
         {
+            Console.SetOut(new StreamWriter("D:\\log.txt"));
+
             Application.SetHighDpiMode(HighDpiMode.SystemAware);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);

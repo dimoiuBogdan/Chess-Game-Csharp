@@ -1,6 +1,4 @@
-﻿using System.Drawing;
-
-namespace ChessGame.Pieces
+﻿namespace ChessGame.Pieces
 {
     public class Bishop : APiece
     {

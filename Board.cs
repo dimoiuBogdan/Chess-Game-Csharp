@@ -1,4 +1,6 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
+using System.IO;
 using System.Windows.Forms;
 
 namespace ChessGame
@@ -8,8 +10,9 @@ namespace ChessGame
         public int CellSize { get; set; }
         public object Enviroment { get; private set; }
         private const int Border = 3;
-
         private BoardLayout Layout;
+        public EventHandler mouseOverEvent;
+
 
         public Board()
         {
@@ -37,6 +40,11 @@ namespace ChessGame
             DrawPieces(e.Graphics);
         }
 
+        public void onMouseOver()
+        {
+            mouseOverEvent.Invoke(this, EventArgs.Empty);
+        }
+
         public void DrawBoard(Graphics g)
         {
             {
@@ -54,7 +62,7 @@ namespace ChessGame
         {
             foreach (var coordinate in Layout.Keys)
             {
-                g.DrawImage(Layout[coordinate].GetImage(coordinate.Y), coordinate.X * CellSize, coordinate.Y * CellSize, CellSize, CellSize);
+                g.DrawImage(Layout[coordinate].GetImage(), coordinate.X * CellSize, coordinate.Y * CellSize, CellSize, CellSize);
             }
         }
 
@@ -77,3 +85,8 @@ namespace ChessGame
         }
     }
 }
+// Evenimente
+// Afisam intr-un fisier coordonatele on hover ( cand se schimba )
+// Creez border pentru piesa la care ii dau hover ( cand se schimba )
+
+// 1. On Hover, write coordinates in a file ( on change )

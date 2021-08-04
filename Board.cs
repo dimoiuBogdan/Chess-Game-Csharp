@@ -1,5 +1,4 @@
-﻿using ChessGame.Pieces;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Windows.Forms;
 
 namespace ChessGame
@@ -8,14 +7,12 @@ namespace ChessGame
     {
         private const int Border = 3;
         private Pen borderPen = new(Color.Green, 3);
-        public Rectangle Rect;
+
         private BoardLayout Layout;
 
         public int CellSize { get; set; }
-        public Coordinate TargetCoordinates { get; set; }
-        public Coordinate InitialCoordiantes { get; set; }
-        public APiece TargetedPiece { get; set; }
-        public PieceColor TeamToMove = PieceColor.White;
+
+        public MoveCoordinates MoveCoordinates = new(null, null);
 
         public Board()
         {
@@ -38,43 +35,43 @@ namespace ChessGame
         {
             this.Cursor = Cursors.Default;
 
-            // if(Coordinates.GetInstance(TargetCoordinates.X, TargetCoordinates.Y) nu da eroare )
-            Layout.Move(TargetedPiece, InitialCoordiantes, TargetCoordinates);
+            if (MoveCoordinates.InitialCoordinate != null && MoveCoordinates.InitialCoordinate != MoveCoordinates.MouseOverCoordinate)
+            {
+                Layout.Move(MoveCoordinates);
+            }
+
+            MoveCoordinates.InitialCoordinate = null;
+            MoveCoordinates.MouseOverCoordinate = null;
 
             Refresh();
         }
 
         private void Board_MouseDown(object sender, MouseEventArgs e)
         {
-            if (Layout.ContainsKey(TargetCoordinates))
+            var coordinateX = e.X / CellSize;
+            var coordinateY = e.Y / CellSize;
+            if (coordinateX < 8 && coordinateY < 8 && coordinateX >= 0 && coordinateY >= 0 && e.Button == MouseButtons.Left)
             {
-                InitialCoordiantes = TargetCoordinates;
+                if (Layout.ContainsKey(Coordinate.GetInstance(coordinateX, coordinateY)))
+                {
+                    MoveCoordinates.InitialCoordinate = Coordinate.GetInstance(coordinateX, coordinateY);
 
-                this.Cursor = new Cursor(Layout[TargetCoordinates].GetImage().GetHicon());
+                    Cursor = new Cursor(new Bitmap(Layout[MoveCoordinates.InitialCoordinate].GetImage(), CellSize, CellSize).GetHicon());
 
-                TargetedPiece = Layout[InitialCoordiantes];
-
-                Layout.Remove(InitialCoordiantes);
-
-                Refresh();
-            }   
+                    Refresh();
+                }
+            }
         }
 
         private void Board_MouseMove(object sender, MouseEventArgs e)
         {
-            // if(Coordinates.GetInstance(TargetCoordinates.X, TargetCoordinates.Y) nu da eroare )
-            if ((e.X / CellSize < 8 && e.Y / CellSize < 8) && (e.X / CellSize != TargetCoordinates?.X || e.Y / CellSize != TargetCoordinates?.Y))
+            var coordinateX = e.X / CellSize;
+            var coordinateY = e.Y / CellSize;
+            if ((coordinateX < 8 && coordinateY < 8 && coordinateX >= 0 && coordinateY >= 0) &&
+                (coordinateX != MoveCoordinates.MouseOverCoordinate?.X || coordinateY != MoveCoordinates.MouseOverCoordinate?.Y))
             {
-                TargetCoordinates = Coordinate.GetInstance(e.X / CellSize, e.Y / CellSize);
+                MoveCoordinates.MouseOverCoordinate = Coordinate.GetInstance(coordinateX, coordinateY);
 
-                if (Layout.ContainsKey(TargetCoordinates))
-                {
-                    borderPen.Color = Color.Green;
-                }
-                else
-                {
-                    borderPen.Color = Color.Red;
-                }
                 Refresh();
             }
         }
@@ -118,9 +115,17 @@ namespace ChessGame
 
         public void DrawHoveredCellBorder(Graphics g)
         {
-            if (TargetCoordinates != null)
+            if (MoveCoordinates.MouseOverCoordinate != null)
             {
-                g.DrawRectangle(borderPen, TargetCoordinates.X * CellSize, TargetCoordinates.Y * CellSize, CellSize, CellSize);
+                if(Layout.ContainsKey(MoveCoordinates.MouseOverCoordinate))
+                {
+                    borderPen.Color = Color.Green;
+                }
+                else
+                {
+                    borderPen.Color = Color.Red;
+                }
+                g.DrawRectangle(borderPen, MoveCoordinates.MouseOverCoordinate.X * CellSize, MoveCoordinates.MouseOverCoordinate.Y * CellSize, CellSize, CellSize);
             }
         }
 
@@ -141,6 +146,5 @@ namespace ChessGame
         }
     }
 }
-// Evenimente
-// Afisam intr-un fisier coordonatele on hover ( cand se schimba )
-// Creez border pentru piesa la care ii dau hover ( cand se schimba )
+
+// Create game.cs care sa contina board si referee

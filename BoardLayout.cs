@@ -39,17 +39,19 @@ namespace ChessGame
             Add(Coordinate.GetInstance(7, 7), PieceFactory.GetInstance(PieceType.Rook, PieceColor.White));
         }
 
-        public void Move(APiece details, Coordinate initialCoordinates, Coordinate targetCoordinates)
+        public void Move(MoveCoordinates moveCoordinates)
         {
             if (true) // Aici vine conditia de miscare pentru fiecare piesa
             {
-                Remove(targetCoordinates);
+                Remove(moveCoordinates.MouseOverCoordinate);
 
-                Add(Coordinate.GetInstance(targetCoordinates.X, targetCoordinates.Y), PieceFactory.GetInstance(details.Type, details.Color));
+                Add(moveCoordinates.MouseOverCoordinate, PieceFactory.GetInstance(this[moveCoordinates.InitialCoordinate].Type,
+                    this[moveCoordinates.InitialCoordinate].Color));
             } 
             else
             {
-                Add(Coordinate.GetInstance(initialCoordinates.X, initialCoordinates.Y), PieceFactory.GetInstance(details.Type, details.Color));
+                Add(moveCoordinates.MouseOverCoordinate, PieceFactory.GetInstance(this[moveCoordinates.InitialCoordinate].Type,
+                    this[moveCoordinates.InitialCoordinate].Color));
             }
         }
 

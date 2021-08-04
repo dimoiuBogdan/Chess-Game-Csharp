@@ -1,12 +1,11 @@
 ﻿using System;
-using System.IO;
 using System.Windows.Forms;
 
 namespace ChessGame
 {
     public partial class GameForm : Form
     {
-        private Board Board { get; set; }
+        private Game Game { get; set; }
 
         public GameForm()
         {
@@ -22,27 +21,27 @@ namespace ChessGame
         {
             this.Cleanup();
 
-            Board = new Board();
+            Game = new Game();
 
-            Board?.Initialize();
+            Game?.Board?.Initialize();
 
-            this.Controls.Add(Board);
+            this.Controls.Add(Game.Board);
 
-            Board?.Reshape(Width, Height - 40, GameToolstrip.Height);
+            Game?.Board?.Reshape(Width, Height - 40, GameToolstrip.Height);
         }
 
         protected override void OnResize(EventArgs e)
         {
-            Board?.Reshape(Width, Height - 40, GameToolstrip.Height);
+            Game?.Board?.Reshape(Width, Height - 40, GameToolstrip.Height);
         }
 
         private void Cleanup()
         {
-            if(Board != null)
+            if (Game?.Board != null)
             {
-                Board.Cleanup();
-                this.Controls.Remove(Board);
-                Board = null;
+                Game.Board.Cleanup();
+                this.Controls.Remove(Game.Board);
+                Game.Board = null;
             }
         }
     }

@@ -7,7 +7,8 @@
 
         public Game()
         {
-
+            Board = new();
+            Referee = new();
         }
     }
 }

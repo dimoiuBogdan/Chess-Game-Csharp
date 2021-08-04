@@ -1,5 +1,4 @@
 ﻿using ChessGame.Pieces;
-using System;
 using System.Collections.Generic;
 
 namespace ChessGame
@@ -47,7 +46,7 @@ namespace ChessGame
 
                 Add(moveCoordinates.MouseOverCoordinate, PieceFactory.GetInstance(this[moveCoordinates.InitialCoordinate].Type,
                     this[moveCoordinates.InitialCoordinate].Color));
-            } 
+            }
             else
             {
                 Add(moveCoordinates.MouseOverCoordinate, PieceFactory.GetInstance(this[moveCoordinates.InitialCoordinate].Type,

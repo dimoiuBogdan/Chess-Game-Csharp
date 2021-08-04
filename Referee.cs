@@ -6,5 +6,10 @@
         {
 
         }
+
+        public bool IsValidMove()
+        {
+            return true;
+        }
     }
 }

@@ -41,6 +41,6 @@ namespace ChessGame
             return _imagesPool[Color][Type];
         }
 
-        // public abstract List<Coordinate> GetAvailableMoves(Coordinate initialCoordinates);
+        public abstract List<Coordinate> GetAvailableMoves(Coordinate initialCoordinates);
     }
 }

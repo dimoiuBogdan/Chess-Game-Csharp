@@ -33,11 +33,17 @@ namespace ChessGame
 
         private void Board_MouseUp(object sender, MouseEventArgs e)
         {
+            var coordinateY = e.Y / CellSize;
+            var coordinateX = e.X / CellSize;
+
             this.Cursor = Cursors.Default;
 
-            if (MoveCoordinates.InitialCoordinate != null && MoveCoordinates.InitialCoordinate != MoveCoordinates.MouseOverCoordinate)
+            if ((coordinateX < 8 && coordinateY < 8 && coordinateX >= 0 && coordinateY >= 0))
             {
-                Layout.Move(MoveCoordinates);
+                if (MoveCoordinates.InitialCoordinate != null && MoveCoordinates.InitialCoordinate != MoveCoordinates.MouseOverCoordinate)
+                {
+                    Layout.Move(MoveCoordinates);
+                }
             }
 
             MoveCoordinates.InitialCoordinate = null;
@@ -117,7 +123,7 @@ namespace ChessGame
         {
             if (MoveCoordinates.MouseOverCoordinate != null)
             {
-                if(Layout.ContainsKey(MoveCoordinates.MouseOverCoordinate))
+                if (Layout.ContainsKey(MoveCoordinates.MouseOverCoordinate))
                 {
                     borderPen.Color = Color.Green;
                 }
@@ -146,5 +152,3 @@ namespace ChessGame
         }
     }
 }
-
-// Create game.cs care sa contina board si referee

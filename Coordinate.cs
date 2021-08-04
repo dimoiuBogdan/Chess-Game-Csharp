@@ -18,7 +18,7 @@ namespace ChessGame
 
         public static Coordinate GetInstance(int x, int y)
         {
-            if(x < 0 || x > 7 || y < 0 || y > 7)
+            if (x < 0 || x > 7 || y < 0 || y > 7)
             {
                 throw new Exception("Invalid coordinates");
             }

@@ -19,15 +19,17 @@ namespace ChessGame
 
         private void StartToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.Cleanup();
+            Cleanup();
 
             Game = new Game();
 
-            Game?.Board?.Initialize();
+            Game.Initialize();
 
             this.Controls.Add(Game.Board);
 
             Game?.Board?.Reshape(Width, Height - 40, GameToolstrip.Height);
+
+            Game.Start();
         }
 
         protected override void OnResize(EventArgs e)
@@ -37,10 +39,10 @@ namespace ChessGame
 
         private void Cleanup()
         {
-            if (Game?.Board != null)
+            if (Game != null && Game.Board != null)
             {
-                Game.Board.Cleanup();
-                this.Controls.Remove(Game.Board);
+                Game.Cleanup();
+                Controls.Remove(Game.Board);
                 Game.Board = null;
             }
         }

@@ -38,25 +38,25 @@ namespace ChessGame
             Add(Coordinate.GetInstance(7, 7), PieceFactory.GetInstance(PieceType.Rook, PieceColor.White));
         }
 
-        public void Move(MoveCoordinates moveCoordinates)
+        public BoardLayout Clone()
         {
-            if (true) // Aici vine conditia de miscare pentru fiecare piesa
-            {
-                Remove(moveCoordinates.MouseOverCoordinate);
+            var clone = new BoardLayout();
 
-                Add(moveCoordinates.MouseOverCoordinate, PieceFactory.GetInstance(this[moveCoordinates.InitialCoordinate].Type,
-                    this[moveCoordinates.InitialCoordinate].Color));
-            }
-            else
-            {
-                Add(moveCoordinates.MouseOverCoordinate, PieceFactory.GetInstance(this[moveCoordinates.InitialCoordinate].Type,
-                    this[moveCoordinates.InitialCoordinate].Color));
-            }
+            return clone;
+        }
+
+        public void Move(Move move)
+        {
+            Remove(move.Target);
+
+            Add(move.Target, this[move.Source]);
+
+            Remove(move.Source);
         }
 
         public void Cleanup()
         {
-            this.Clear();
+            Clear();
         }
     }
 }

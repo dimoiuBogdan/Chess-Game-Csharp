@@ -8,11 +8,16 @@ namespace ChessGame
         private const int Border = 3;
         private Pen borderPen = new(Color.Green, 3);
 
-        private BoardLayout Layout;
+        public GameContext Context { get; set; }
 
         public int CellSize { get; set; }
 
-        public MoveCoordinates MoveCoordinates = new(null, null);
+        public Coordinate InitialCoordinate;
+        public Coordinate TargetCoordinate;
+        public Coordinate MouseOverCoordinate;
+
+        public delegate void MoveProposedHandler(object sender, MoveProposedEventArgs e);
+        public event MoveProposedHandler MoveProposed;
 
         public Board()
         {
@@ -21,9 +26,6 @@ namespace ChessGame
 
         public void Initialize()
         {
-            Layout = new BoardLayout();
-            Layout?.Initialize();
-
             this.MouseMove += Board_MouseMove;
             this.MouseDown += Board_MouseDown;
             this.MouseUp += Board_MouseUp;
@@ -31,8 +33,19 @@ namespace ChessGame
             DoubleBuffered = true;
         }
 
+        public void Referee_ContextChanged(object sender, ChangedContextEventArgs e)
+        {
+            // 6. Ne folosim de datele transportate
+            Context = e.Context;
+        }
+
         private void Board_MouseUp(object sender, MouseEventArgs e)
         {
+            if (Context == null || Context.Layout == null)
+            {
+                return;
+            }
+
             var coordinateY = e.Y / CellSize;
             var coordinateX = e.X / CellSize;
 
@@ -40,29 +53,41 @@ namespace ChessGame
 
             if ((coordinateX < 8 && coordinateY < 8 && coordinateX >= 0 && coordinateY >= 0))
             {
-                if (MoveCoordinates.InitialCoordinate != null && MoveCoordinates.InitialCoordinate != MoveCoordinates.MouseOverCoordinate)
+                TargetCoordinate = Coordinate.GetInstance(coordinateX, coordinateY);
+
+                if (InitialCoordinate != null && InitialCoordinate != MouseOverCoordinate)
                 {
-                    Layout.Move(MoveCoordinates);
+                    Move move = new(InitialCoordinate, TargetCoordinate);
+            
+                    MoveProposedEventArgs moveProposedArgs = new(move);
+
+                    MoveProposed?.Invoke(this, moveProposedArgs);
                 }
             }
 
-            MoveCoordinates.InitialCoordinate = null;
-            MoveCoordinates.MouseOverCoordinate = null;
+            InitialCoordinate = null;
+            TargetCoordinate = null;
 
             Refresh();
         }
 
         private void Board_MouseDown(object sender, MouseEventArgs e)
         {
+            if (Context == null || Context.Layout == null)
+            {
+                return;
+            }
+
             var coordinateX = e.X / CellSize;
             var coordinateY = e.Y / CellSize;
+
             if (coordinateX < 8 && coordinateY < 8 && coordinateX >= 0 && coordinateY >= 0 && e.Button == MouseButtons.Left)
             {
-                if (Layout.ContainsKey(Coordinate.GetInstance(coordinateX, coordinateY)))
+                if (Context.Layout.ContainsKey(Coordinate.GetInstance(coordinateX, coordinateY)))
                 {
-                    MoveCoordinates.InitialCoordinate = Coordinate.GetInstance(coordinateX, coordinateY);
+                    InitialCoordinate = Coordinate.GetInstance(coordinateX, coordinateY);
 
-                    Cursor = new Cursor(new Bitmap(Layout[MoveCoordinates.InitialCoordinate].GetImage(), CellSize, CellSize).GetHicon());
+                    Cursor = new Cursor(new Bitmap(Context.Layout[InitialCoordinate].GetImage(), CellSize, CellSize).GetHicon());
 
                     Refresh();
                 }
@@ -73,21 +98,13 @@ namespace ChessGame
         {
             var coordinateX = e.X / CellSize;
             var coordinateY = e.Y / CellSize;
+
             if ((coordinateX < 8 && coordinateY < 8 && coordinateX >= 0 && coordinateY >= 0) &&
-                (coordinateX != MoveCoordinates.MouseOverCoordinate?.X || coordinateY != MoveCoordinates.MouseOverCoordinate?.Y))
+                (coordinateX != MouseOverCoordinate?.X || coordinateY != MouseOverCoordinate?.Y))
             {
-                MoveCoordinates.MouseOverCoordinate = Coordinate.GetInstance(coordinateX, coordinateY);
+                MouseOverCoordinate = Coordinate.GetInstance(coordinateX, coordinateY);
 
                 Refresh();
-            }
-        }
-
-        public void Cleanup()
-        {
-            if (Layout != null)
-            {
-                Layout.Cleanup();
-                Layout = null;
             }
         }
 
@@ -100,30 +117,33 @@ namespace ChessGame
 
         public void DrawBoard(Graphics g)
         {
+            for (var row = 0; row < 8; row++)
             {
-                for (var row = 0; row < 8; row++)
+                for (var col = 0; col < 8; col++)
                 {
-                    for (var col = 0; col < 8; col++)
-                    {
-                        g.FillRectangle((row + col) % 2 == 0 ? Brushes.White : Brushes.Brown, row * CellSize, col * CellSize, CellSize, CellSize);
-                    }
+                    g.FillRectangle((row + col) % 2 == 0 ? Brushes.White : Brushes.Brown, row * CellSize, col * CellSize, CellSize, CellSize);
                 }
             }
         }
 
         public void DrawPieces(Graphics g)
         {
-            foreach (var coordinate in Layout.Keys)
+            if (Context == null || Context.Layout == null)
             {
-                g.DrawImage(Layout[coordinate].GetImage(), coordinate.X * CellSize, coordinate.Y * CellSize, CellSize, CellSize);
+                return;
+            }
+
+            foreach (var coordinate in Context.Layout.Keys)
+            {
+                g.DrawImage(Context.Layout[coordinate].GetImage(), coordinate.X * CellSize, coordinate.Y * CellSize, CellSize, CellSize);
             }
         }
 
         public void DrawHoveredCellBorder(Graphics g)
         {
-            if (MoveCoordinates.MouseOverCoordinate != null)
+            if (MouseOverCoordinate != null && Context != null && Context.Layout != null)
             {
-                if (Layout.ContainsKey(MoveCoordinates.MouseOverCoordinate))
+                if (Context.Layout.ContainsKey(MouseOverCoordinate))
                 {
                     borderPen.Color = Color.Green;
                 }
@@ -131,7 +151,7 @@ namespace ChessGame
                 {
                     borderPen.Color = Color.Red;
                 }
-                g.DrawRectangle(borderPen, MoveCoordinates.MouseOverCoordinate.X * CellSize, MoveCoordinates.MouseOverCoordinate.Y * CellSize, CellSize, CellSize);
+                g.DrawRectangle(borderPen, MouseOverCoordinate.X * CellSize, MouseOverCoordinate.Y * CellSize, CellSize, CellSize);
             }
         }
 
@@ -149,6 +169,15 @@ namespace ChessGame
                       boardSize);
 
             Refresh();
+        }
+
+        public void Cleanup()
+        {
+            if (Context != null && Context.Layout != null)
+            {
+                Context.Layout.Cleanup();
+                Context.Layout = null;
+            }
         }
     }
 }

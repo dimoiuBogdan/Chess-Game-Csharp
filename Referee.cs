@@ -27,7 +27,7 @@
             // 4. Transmitem parametrii
             ChangedContextEventArgs changedContextArgs = new(Context.Clone());
 
-            // 5. Invocam metoda in cazul in care avem ascultatori
+            // 5. Invocam metoda in cazul in care avem ascultatori ( vezi clasa inregistrata ca ascultator )
             ContextChanged?.Invoke(this, changedContextArgs);
         }
 

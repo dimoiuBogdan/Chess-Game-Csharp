@@ -38,12 +38,6 @@ namespace ChessGame
             Add(Coordinate.GetInstance(7, 7), PieceFactory.GetInstance(PieceType.Rook, PieceColor.White));
         }
 
-        public BoardLayout Clone()
-        {
-            var clone = new BoardLayout();
-
-            return clone;
-        }
 
         public void Move(Move move)
         {
@@ -52,6 +46,13 @@ namespace ChessGame
             Add(move.Target, this[move.Source]);
 
             Remove(move.Source);
+        }
+
+        public BoardLayout Clone()
+        {
+            BoardLayout clone = this;
+
+            return clone;
         }
 
         public void Cleanup()

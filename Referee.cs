@@ -50,11 +50,11 @@
         
         public void Cleanup()
         {
-            Context.Layout.Cleanup();
+                Context.Layout.Cleanup();
 
-            Context.Layout = null;
+                Context.Layout = null;
 
-            Context = null;
+                Context = null;
         }
     }
 }

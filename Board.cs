@@ -37,6 +37,8 @@ namespace ChessGame
         {
             // 6. Ne folosim de datele transportate
             Context = e.Context;
+
+            Refresh(); 
         }
 
         private void Board_MouseUp(object sender, MouseEventArgs e)

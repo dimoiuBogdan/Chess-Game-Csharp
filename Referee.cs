@@ -38,7 +38,7 @@ namespace ChessGame
             if (IsValid(e.Move))
             {
                 Context.Layout.Move(e.Move);
-                if(Context.ColorToMove == PieceColor.Black)
+                if (Context.ColorToMove == PieceColor.Black)
                 {
                     Context.ColorToMove = PieceColor.White;
                 }
@@ -55,7 +55,18 @@ namespace ChessGame
 
         private bool IsValid(Move move)
         {
-            return Context.Layout[move.Source].GetAvailableMoves(move.Source, Context).Contains(move.Target);
+            if (Context.Layout.ContainsKey(move.Target) && Context.Layout[move.Target] != null)
+            {
+                if (Context.Layout[move.Source].Color != Context.Layout[move.Target].Color)
+                {
+                    return Context.Layout[move.Source].GetAvailableMoves(move.Source, Context).Contains(move.Target);
+                }
+            }
+            else
+            {
+                return Context.Layout[move.Source].GetAvailableMoves(move.Source, Context).Contains(move.Target);
+            }
+            return false;
         }
 
         public void Cleanup()

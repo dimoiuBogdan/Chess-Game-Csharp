@@ -18,15 +18,15 @@ namespace ChessGame.Pieces
                 Coordinate c;
 
                 // dreapta sus
-                for (int i = 1; i <= 6; i++)
+                for (int i = 1; i < 7; i++)
                 {
                     if (source.X + i < 0 || source.X + i > 7 || source.Y - i < 0 || source.Y - i > 7)
                     {
                         break;
                     }
-                       
+
                     c = Coordinate.GetInstance(source.X + i, source.Y - i);
-                    
+
                     if (context.Layout.ContainsKey(c))
                     {
                         if (context.Layout[c].Color != Color)
@@ -38,19 +38,64 @@ namespace ChessGame.Pieces
                     availableMoves.Add(c);
                 }
                 // dreapta jos
-                for (int i = 1; i <= 7 - source.Y - source.X; i++)
+                for (int i = 1; i < 7; i++)
                 {
-                    availableMoves.Add(Coordinate.GetInstance(source.X + i, source.Y + i));
+                    if (source.X + i < 0 || source.X + i > 7 || source.Y + i < 0 || source.Y + i > 7)
+                    {
+                        break;
+                    }
+
+                    c = Coordinate.GetInstance(source.X + i, source.Y + i);
+
+                    if (context.Layout.ContainsKey(c))
+                    {
+                        if (context.Layout[c].Color != Color)
+                        {
+                            availableMoves.Add(c);
+                        }
+                        break;
+                    }
+                    availableMoves.Add(c);
                 }
                 // stanga sus
-                for (int i = 1; i <= source.Y - 7 + source.X; i++)
+                for (int i = 1; i < 7; i++)
                 {
-                    availableMoves.Add(Coordinate.GetInstance(source.X - i, source.Y - i));
+                    if (source.X - i < 0 || source.X - i > 7 || source.Y - i < 0 || source.Y - i > 7)
+                    {
+                        break;
+                    }
+
+                    c = Coordinate.GetInstance(source.X - i, source.Y - i);
+
+                    if (context.Layout.ContainsKey(c))
+                    {
+                        if (context.Layout[c].Color != Color)
+                        {
+                            availableMoves.Add(c);
+                        }
+                        break;
+                    }
+                    availableMoves.Add(c);
                 }
                 // stanga jos
-                for (int i = 1; i <= 7 - source.Y - (7 - source.X); i++)
+                for (int i = 1; i < 7; i++)
                 {
-                    availableMoves.Add(Coordinate.GetInstance(source.X - i, source.Y + i));
+                    if (source.X - i < 0 || source.X - i > 7 || source.Y + i < 0 || source.Y + i > 7)
+                    {
+                        break;
+                    }
+
+                    c = Coordinate.GetInstance(source.X - i, source.Y + i);
+
+                    if (context.Layout.ContainsKey(c))
+                    {
+                        if (context.Layout[c].Color != Color)
+                        {
+                            availableMoves.Add(c);
+                        }
+                        break;
+                    }
+                    availableMoves.Add(c);
                 }
             }
 

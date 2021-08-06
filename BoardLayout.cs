@@ -11,6 +11,11 @@ namespace ChessGame
 
         }
 
+        public BoardLayout(Dictionary<Coordinate, APiece> sourceDictionary) : base(sourceDictionary)
+        {
+
+        }
+
         public void Initialize()
         {
             for (var i = 0; i < 8; i++)
@@ -50,7 +55,12 @@ namespace ChessGame
 
         public BoardLayout Clone()
         {
-            BoardLayout clone = this;
+            var clone = new BoardLayout();
+
+            foreach (var c in this.Keys)
+            {
+                clone.Add(c, this[c]);
+            }
 
             return clone;
         }

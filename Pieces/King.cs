@@ -9,7 +9,7 @@ namespace ChessGame.Pieces
 
         }
 
-        public override List<Coordinate> GetAvailableMoves(Coordinate initialCoordinates)
+        public override List<Coordinate> GetAvailableMoves(Coordinate initialCoordinates, GameContext context)
         {
             List<Coordinate> availableMoves = new();
 

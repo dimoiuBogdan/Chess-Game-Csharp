@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System.Collections.Generic;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace ChessGame
@@ -6,7 +7,7 @@ namespace ChessGame
     public class Board : Panel
     {
         private const int Border = 3;
-        private Pen borderPen = new(Color.Green, 3);
+        private Pen borderPen = new(Color.Gold, 5);
 
         public GameContext Context { get; set; }
 
@@ -18,6 +19,7 @@ namespace ChessGame
 
         public delegate void MoveProposedHandler(object sender, MoveProposedEventArgs e);
         public event MoveProposedHandler MoveProposed;
+        public List<Coordinate> AvailableMoves { get; set; }
 
         public Board()
         {
@@ -38,7 +40,7 @@ namespace ChessGame
             // 6. Ne folosim de datele transportate
             Context = e.Context;
 
-            Refresh(); 
+            Refresh();
         }
 
         private void Board_MouseUp(object sender, MouseEventArgs e)
@@ -51,7 +53,7 @@ namespace ChessGame
             var coordinateY = e.Y / CellSize;
             var coordinateX = e.X / CellSize;
 
-            this.Cursor = Cursors.Default;
+            Cursor = Cursors.Default;
 
             if ((coordinateX < 8 && coordinateY < 8 && coordinateX >= 0 && coordinateY >= 0))
             {
@@ -60,8 +62,10 @@ namespace ChessGame
                 if (InitialCoordinate != null && InitialCoordinate != MouseOverCoordinate)
                 {
                     Move move = new(InitialCoordinate, TargetCoordinate);
-            
+
                     MoveProposedEventArgs moveProposedArgs = new(move);
+
+                    AvailableMoves = null;
 
                     MoveProposed?.Invoke(this, moveProposedArgs);
                 }
@@ -89,7 +93,10 @@ namespace ChessGame
                 {
                     InitialCoordinate = Coordinate.GetInstance(coordinateX, coordinateY);
 
-                    Cursor = new Cursor(new Bitmap(Context.Layout[InitialCoordinate].GetImage(), CellSize, CellSize).GetHicon());
+                    if (Context.Layout[InitialCoordinate].Color == Context.ColorToMove)
+                    {
+                        Cursor = new Cursor(new Bitmap(Context.Layout[InitialCoordinate].GetImage(), CellSize, CellSize).GetHicon());
+                    }
 
                     Refresh();
                 }
@@ -106,6 +113,21 @@ namespace ChessGame
             {
                 MouseOverCoordinate = Coordinate.GetInstance(coordinateX, coordinateY);
 
+                if (Context != null && Context.Layout != null)
+                {
+                    if (Cursor == Cursors.Default)
+                    {
+                        if (Context.Layout.ContainsKey(MouseOverCoordinate))
+                        {
+                            AvailableMoves = Context.Layout[MouseOverCoordinate].GetAvailableMoves(MouseOverCoordinate, Context);
+                        }
+                        else
+                        {
+                            AvailableMoves = null;
+                        }
+                    }
+
+                }
                 Refresh();
             }
         }
@@ -114,7 +136,7 @@ namespace ChessGame
         {
             DrawBoard(e.Graphics);
             DrawPieces(e.Graphics);
-            DrawHoveredCellBorder(e.Graphics);
+            DrawAvailableMoves(e.Graphics);
         }
 
         public void DrawBoard(Graphics g)
@@ -141,19 +163,14 @@ namespace ChessGame
             }
         }
 
-        public void DrawHoveredCellBorder(Graphics g)
+        public void DrawAvailableMoves(Graphics g)
         {
-            if (MouseOverCoordinate != null && Context != null && Context.Layout != null)
+            if (AvailableMoves != null)
             {
-                if (Context.Layout.ContainsKey(MouseOverCoordinate))
+                foreach (var availableMove in AvailableMoves)
                 {
-                    borderPen.Color = Color.Green;
+                    g.DrawRectangle(borderPen, availableMove.X * CellSize, availableMove.Y * CellSize, CellSize, CellSize);
                 }
-                else
-                {
-                    borderPen.Color = Color.Red;
-                }
-                g.DrawRectangle(borderPen, MouseOverCoordinate.X * CellSize, MouseOverCoordinate.Y * CellSize, CellSize, CellSize);
             }
         }
 

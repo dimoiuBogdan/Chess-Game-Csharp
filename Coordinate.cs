@@ -10,7 +10,7 @@ namespace ChessGame
 
         private static Dictionary<int, Dictionary<int, Coordinate>> _coordinatePool;
 
-        public Coordinate(int x, int y)
+        private Coordinate(int x, int y)
         {
             this.X = x;
             this.Y = y;

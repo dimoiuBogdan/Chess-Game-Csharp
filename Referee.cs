@@ -1,4 +1,6 @@
-﻿namespace ChessGame
+﻿using ChessGame.Pieces;
+
+namespace ChessGame
 {
     public class Referee
     {
@@ -36,6 +38,14 @@
             if (IsValid(e.Move))
             {
                 Context.Layout.Move(e.Move);
+                if(Context.ColorToMove == PieceColor.Black)
+                {
+                    Context.ColorToMove = PieceColor.White;
+                }
+                else
+                {
+                    Context.ColorToMove = PieceColor.Black;
+                }
             }
 
             ChangedContextEventArgs changedContextArgs = new(Context.Clone());
@@ -45,16 +55,16 @@
 
         private bool IsValid(Move move)
         {
-            return true;
+            return Context.Layout[move.Source].GetAvailableMoves(move.Source, Context).Contains(move.Target);
         }
-        
+
         public void Cleanup()
         {
-                Context.Layout.Cleanup();
+            Context.Layout.Cleanup();
 
-                Context.Layout = null;
+            Context.Layout = null;
 
-                Context = null;
+            Context = null;
         }
     }
 }

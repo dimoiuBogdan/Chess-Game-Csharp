@@ -17,12 +17,11 @@ namespace ChessGame.Pieces
 
             if (context.ColorToMove == Color)
             {
-                // ceva ciudat la conditie ( ar trebui sa returneze false dupa prima mutare vezi isUp si precedenta operatorilor )
                 if (isFirstMove && !context.Layout.ContainsKey(Coordinate.GetInstance(initialCoordinates.X, isUp ? initialCoordinates.Y + 2 : initialCoordinates.Y - 2)) && !context.Layout.ContainsKey(Coordinate.GetInstance(initialCoordinates.X, isUp ? initialCoordinates.Y + 1 : initialCoordinates.Y - 1)) && (isUp ? initialCoordinates.Y + 2 <= 7 : initialCoordinates.Y - 2 <= 7 && isUp ? initialCoordinates.Y + 2 >= 0 : initialCoordinates.Y - 2 >= 0))
                 {
                     availableMoves.Add(Coordinate.GetInstance(initialCoordinates.X, isUp ? initialCoordinates.Y + 2 : initialCoordinates.Y - 2));
                 }
-                if (isUp ? initialCoordinates.Y + 1 <= 7 : initialCoordinates.Y - 1 <= 7 && isUp ? initialCoordinates.Y + 1 >= 0 : initialCoordinates.Y - 1 >= 0 && !context.Layout.ContainsKey(Coordinate.GetInstance(initialCoordinates.X, isUp ? initialCoordinates.Y + 1 : initialCoordinates.Y - 1)))
+                if ((isUp ? initialCoordinates.Y + 1 <= 7 : initialCoordinates.Y - 1 <= 7 && isUp ? initialCoordinates.Y + 1 >= 0 : initialCoordinates.Y - 1 >= 0) && !context.Layout.ContainsKey(Coordinate.GetInstance(initialCoordinates.X, isUp ? initialCoordinates.Y + 1 : initialCoordinates.Y - 1)))
                 {
                     availableMoves.Add(Coordinate.GetInstance(initialCoordinates.X, isUp ? initialCoordinates.Y + 1 : initialCoordinates.Y - 1));
                 }

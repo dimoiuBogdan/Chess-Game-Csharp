@@ -106,5 +106,3 @@ namespace ChessGame.Pieces
         }
     }
 }
-// 3 : 3
-// 7 : 7

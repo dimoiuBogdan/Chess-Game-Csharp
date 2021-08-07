@@ -9,31 +9,71 @@ namespace ChessGame.Pieces
 
         }
 
-        public override List<Coordinate> GetAvailableMoves(Coordinate initialCoordinates, GameContext context)
+        public override List<Coordinate> GetAvailableMoves(Coordinate source, GameContext context)
         {
             List<Coordinate> availableMoves = new();
 
             if (context.ColorToMove == Color)
             {
                 // dreapta sus
-                if (initialCoordinates.X + 1 >= 0 && initialCoordinates.X + 1 >= 0 && initialCoordinates.Y - 2 >= 0 && initialCoordinates.Y - 2 <= 7)
+                if (source.X + 1 >= 0 && source.X + 1 >= 0 && source.Y - 2 >= 0 && source.Y - 2 <= 7)
                 {
-                    availableMoves.Add(Coordinate.GetInstance(initialCoordinates.X + 1, initialCoordinates.Y - 2));
+                    if (context.Layout.ContainsKey(Coordinate.GetInstance(source.X + 1, source.Y - 2)))
+                    {
+                        if (context.Layout[Coordinate.GetInstance(source.X + 1, source.Y - 2)].Color != context.Layout[Coordinate.GetInstance(source.X, source.Y)].Color)
+                        {
+                            availableMoves.Add(Coordinate.GetInstance(source.X + 1, source.Y - 2));
+                        }
+                    }
+                    else
+                    {
+                        availableMoves.Add(Coordinate.GetInstance(source.X + 1, source.Y - 2));
+                    }
                 }
                 // dreapta jos
-                if (initialCoordinates.X + 1 <= 7 && initialCoordinates.Y + 2 >= 0 && initialCoordinates.X + 1 >= 0 && initialCoordinates.Y + 2 <= 7)
+                if (source.X + 1 <= 7 && source.Y + 2 >= 0 && source.X + 1 >= 0 && source.Y + 2 <= 7)
                 {
-                    availableMoves.Add(Coordinate.GetInstance(initialCoordinates.X + 1, initialCoordinates.Y + 2));
+                    if (context.Layout.ContainsKey(Coordinate.GetInstance(source.X + 1, source.Y + 2)))
+                    {
+                        if (context.Layout[Coordinate.GetInstance(source.X + 1, source.Y + 2)].Color != context.Layout[Coordinate.GetInstance(source.X, source.Y)].Color)
+                        {
+                            availableMoves.Add(Coordinate.GetInstance(source.X + 1, source.Y + 2));
+                        }
+                    }
+                    else
+                    {
+                        availableMoves.Add(Coordinate.GetInstance(source.X + 1, source.Y + 2));
+                    }
                 }
                 // stanga sus
-                if (initialCoordinates.X - 1 <= 7 && initialCoordinates.Y - 2 >= 0 && initialCoordinates.X - 1 >= 0 && initialCoordinates.Y - 2 <= 7)
+                if (source.X - 1 <= 7 && source.Y - 2 >= 0 && source.X - 1 >= 0 && source.Y - 2 <= 7)
                 {
-                    availableMoves.Add(Coordinate.GetInstance(initialCoordinates.X - 1, initialCoordinates.Y - 2));
+                    if (context.Layout.ContainsKey(Coordinate.GetInstance(source.X - 1, source.Y - 2)))
+                    {
+                        if (context.Layout[Coordinate.GetInstance(source.X - 1, source.Y - 2)].Color != context.Layout[Coordinate.GetInstance(source.X, source.Y)].Color)
+                        {
+                            availableMoves.Add(Coordinate.GetInstance(source.X - 1, source.Y - 2));
+                        }
+                    }
+                    else
+                    {
+                        availableMoves.Add(Coordinate.GetInstance(source.X - 1, source.Y - 2));
+                    }
                 }
                 // stanga jos
-                if (initialCoordinates.X - 1 <= 7 && initialCoordinates.Y + 2 >=0 && initialCoordinates.X - 1 >= 0 && initialCoordinates.Y + 2 <= 7)
+                if (source.X - 1 <= 7 && source.Y + 2 >=0 && source.X - 1 >= 0 && source.Y + 2 <= 7)
                 {
-                    availableMoves.Add(Coordinate.GetInstance(initialCoordinates.X - 1, initialCoordinates.Y + 2));
+                    if (context.Layout.ContainsKey(Coordinate.GetInstance(source.X - 1, source.Y + 2)))
+                    {
+                        if (context.Layout[Coordinate.GetInstance(source.X - 1, source.Y + 2)].Color != context.Layout[Coordinate.GetInstance(source.X, source.Y)].Color)
+                        {
+                            availableMoves.Add(Coordinate.GetInstance(source.X - 1, source.Y + 2));
+                        }
+                    }
+                    else
+                    {
+                        availableMoves.Add(Coordinate.GetInstance(source.X - 1, source.Y + 2));
+                    }
                 }
             }
             

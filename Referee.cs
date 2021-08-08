@@ -37,7 +37,14 @@ namespace ChessGame
         {
             if (IsValid(e.Move))
             {
+                if (IsCastling(e.Move))
+                {
+                    Move reversedMove = new(e.Move.Target, e.Move.Source);
+                    Context.Layout.Move(reversedMove);
+                }
+       
                 Context.Layout.Move(e.Move);
+
                 if (Context.ColorToMove == PieceColor.Black)
                 {
                     Context.ColorToMove = PieceColor.White;
@@ -55,16 +62,17 @@ namespace ChessGame
 
         private bool IsValid(Move move)
         {
-            if (Context.Layout.ContainsKey(move.Target) && Context.Layout[move.Target] != null)
+            return Context.Layout[move.Source].GetAvailableMoves(move.Source, Context).Contains(move.Target);
+        }
+
+        public bool IsCastling(Move move)
+        {
+            if (Context.Layout.ContainsKey(move.Source) && Context.Layout.ContainsKey(move.Target))
             {
-                if (Context.Layout[move.Source].Color != Context.Layout[move.Target].Color)
+                if ((Context.Layout[move.Source].Color == Context.Layout[move.Target].Color) && (Context.Layout[move.Source].Type == PieceType.King && Context.Layout[move.Target].Type == PieceType.Rook))
                 {
-                    return Context.Layout[move.Source].GetAvailableMoves(move.Source, Context).Contains(move.Target);
+                    return true;
                 }
-            }
-            else
-            {
-                return Context.Layout[move.Source].GetAvailableMoves(move.Source, Context).Contains(move.Target);
             }
             return false;
         }

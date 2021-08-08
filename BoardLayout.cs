@@ -11,11 +11,6 @@ namespace ChessGame
 
         }
 
-        public BoardLayout(Dictionary<Coordinate, APiece> sourceDictionary) : base(sourceDictionary)
-        {
-
-        }
-
         public void Initialize()
         {
             for (var i = 0; i < 8; i++)

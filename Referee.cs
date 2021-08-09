@@ -12,7 +12,7 @@ namespace ChessGame
         public event ChangedContextHandler ContextChanged;
 
         public bool RightCastling { get; set; }
-        public Coordinate CastlePosition { get; set; }
+        public Coordinate RookPosition { get; set; }
 
         public Referee()
         {
@@ -45,7 +45,7 @@ namespace ChessGame
                 {
                     if (IsCastling(e.Move))
                     {
-                        Move castling = new(CastlePosition, Coordinate.GetInstance(RightCastling ? e.Move.Source.X + 1 : e.Move.Source.X - 2, e.Move.Source.Y));
+                        Move castling = new(RookPosition, Coordinate.GetInstance(RightCastling ? e.Move.Source.X + 1 : e.Move.Source.X - 1, e.Move.Source.Y));
                         Context.Layout.Move(castling);
                     }
 
@@ -84,7 +84,7 @@ namespace ChessGame
 
         private bool IsValid(Move move)
         {
-            
+
             if (Context.Layout[move.Source].GetAvailableMoves(move.Source, Context).Contains(move.Target))
             {
                 return true;
@@ -93,9 +93,9 @@ namespace ChessGame
             {
                 throw new System.InvalidOperationException($"Invalid {Context.Layout[move.Source].Type} Move");
             }
-             
+
             //return Context.Layout[move.Source].GetAvailableMoves(move.Source, Context).Contains(move.Target);
-            
+
         }
 
         public bool IsCastling(Move move)
@@ -103,14 +103,11 @@ namespace ChessGame
             if (Context.Layout[move.Source].Type == PieceType.King)
             {
                 RightCastling = move.Target.X == 5;
-                CastlePosition = Coordinate.GetInstance(RightCastling ? move.Target.X + 2 : move.Target.X - 1, move.Target.Y);
+                RookPosition = Coordinate.GetInstance(RightCastling ? move.Target.X + 2 : move.Target.X - 1, move.Target.Y);
 
-                if (Context.Layout.ContainsKey(CastlePosition) && (Context.Layout[move.Source].Color == Context.Layout[CastlePosition].Color))
-                {
-                    return true;
-                }
             }
-            return false;
+            return Context.Layout.ContainsKey(RookPosition) && Context.Layout[RookPosition].Type == PieceType.Rook && (Context.Layout[move.Source].Color == Context.Layout[RookPosition].Color);
+            //return false;
         }
 
         public void Cleanup()

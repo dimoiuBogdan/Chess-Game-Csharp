@@ -7,7 +7,7 @@ namespace ChessGame
 {
     public abstract class APiece
     {
-        private static Bitmap chessPiecesImage = new(Assembly.GetExecutingAssembly()
+        private static readonly Bitmap chessPiecesImage = new(Assembly.GetExecutingAssembly()
                   .GetManifestResourceStream("ChessGame.Resources.ChessPiecesArray.png"));
 
         private static Dictionary<PieceColor, Dictionary<PieceType, Bitmap>> _imagesPool;

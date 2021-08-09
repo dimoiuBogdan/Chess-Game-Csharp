@@ -12,13 +12,24 @@ namespace ChessGame
         [STAThread]
         static void Main()
         {
-            StreamWriter writer = new("log.txt");
-            Console.SetOut(writer);
+            using (StreamWriter writer = new("log.txt"))
+            {
+                Console.SetOut(writer);
+                Application.SetHighDpiMode(HighDpiMode.SystemAware);
+                Application.EnableVisualStyles();
+                Application.SetCompatibleTextRenderingDefault(false);
+                Application.Run(new GameForm());
+            }
 
-            Application.SetHighDpiMode(HighDpiMode.SystemAware);
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new GameForm());
+
+            AppDomain currentAppDomain = AppDomain.CurrentDomain;
+            currentAppDomain.UnhandledException += new UnhandledExceptionEventHandler(HandleException);
+        }
+
+        private static void HandleException(object sender, UnhandledExceptionEventArgs e)
+        {
+            Console.WriteLine($"Sorry, there was an error! {e.ExceptionObject}");
+            MessageBox.Show($"Sorry, there was an error! {e.ExceptionObject}");
         }
     }
 }

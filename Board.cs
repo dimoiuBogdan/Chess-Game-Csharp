@@ -46,7 +46,7 @@ namespace ChessGame
             }
             catch (System.Exception ex)
             {
-                Logger.Log($"{ex.Message} in board", ex.StackTrace);
+                Logger.Log(ex);
                 MessageBox.Show($"{ex.Message} in board");
             }
 
@@ -151,7 +151,7 @@ namespace ChessGame
             }
             catch (System.Exception ex)
             {
-                Logger.Log(ex.Message, ex.StackTrace);
+                Logger.Log(ex);
                 MessageBox.Show(ex.Message);
             }
         }

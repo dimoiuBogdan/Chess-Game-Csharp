@@ -14,126 +14,145 @@ namespace ChessGame.Pieces
         public override List<Coordinate> GetAvailableMoves(Coordinate source, GameContext context)
         {
             List<Coordinate> availableMoves = new();
+            Coordinate sourceCoordinates = Coordinate.GetInstance(source.X, source.Y);
 
             if (context.ColorToMove == Color)
             {
+                Coordinate c;
+
                 // dreapta
                 if (source.X + 1 >= 0 && source.Y >= 0 && source.X + 1 <= 7 && source.Y <= 7)
                 {
-                    if (context.Layout.ContainsKey(Coordinate.GetInstance(source.X + 1, source.Y)) && context.Layout[Coordinate.GetInstance(source.X + 1, source.Y)].Color != context.Layout[Coordinate.GetInstance(source.X, source.Y)].Color)
+                    c = Coordinate.GetInstance(source.X + 1, source.Y);
+
+                    if (context.Layout.ContainsKey(c) && context.Layout[c].Color != context.Layout[sourceCoordinates].Color)
                     {
-                        availableMoves.Add(Coordinate.GetInstance(source.X + 1, source.Y));
+                        availableMoves.Add(c);
                     }
                     else
                     {
-                        if (!context.Layout.ContainsKey(Coordinate.GetInstance(source.X + 1, source.Y)))
+                        if (!context.Layout.ContainsKey(c))
                         {
-                            availableMoves.Add(Coordinate.GetInstance(source.X + 1, source.Y));
+                            availableMoves.Add(c);
                         }
                     }
                 }
                 // stanga
                 if (source.X - 1 >= 0 && source.Y >= 0 && source.X - 1 <= 7 && source.Y <= 7)
                 {
-                    if (context.Layout.ContainsKey(Coordinate.GetInstance(source.X - 1, source.Y)) && context.Layout[Coordinate.GetInstance(source.X - 1, source.Y)].Color != context.Layout[Coordinate.GetInstance(source.X, source.Y)].Color)
+                    c = Coordinate.GetInstance(source.X - 1, source.Y);
+
+                    if (context.Layout.ContainsKey(c) && context.Layout[c].Color != context.Layout[sourceCoordinates].Color)
                     {
-                        availableMoves.Add(Coordinate.GetInstance(source.X - 1, source.Y));
+                        availableMoves.Add(c);
                     }
                     else
                     {
-                        if (!context.Layout.ContainsKey(Coordinate.GetInstance(source.X - 1, source.Y)))
+                        if (!context.Layout.ContainsKey(c))
                         {
-                            availableMoves.Add(Coordinate.GetInstance(source.X - 1, source.Y));
-                        }
-                    }
-                }
-                // sus
-                if (source.X >= 0 && source.Y + 1 >= 0 && source.X <= 7 && source.Y + 1 <= 7)
-                {
-                    if (context.Layout.ContainsKey(Coordinate.GetInstance(source.X, source.Y + 1)) && context.Layout[Coordinate.GetInstance(source.X, source.Y + 1)].Color != context.Layout[Coordinate.GetInstance(source.X, source.Y)].Color)
-                    {
-                        availableMoves.Add(Coordinate.GetInstance(source.X, source.Y + 1));
-                    }
-                    else
-                    {
-                        if (!context.Layout.ContainsKey(Coordinate.GetInstance(source.X, source.Y + 1)))
-                        {
-                            availableMoves.Add(Coordinate.GetInstance(source.X, source.Y + 1));
+                            availableMoves.Add(c);
                         }
                     }
                 }
                 // jos
-                if (source.X >= 0 && source.Y - 1 >= 0 && source.X <= 7 && source.Y - 1 <= 7)
+                if (source.X >= 0 && source.Y + 1 >= 0 && source.X <= 7 && source.Y + 1 <= 7)
                 {
-                    if (context.Layout.ContainsKey(Coordinate.GetInstance(source.X, source.Y - 1)) && context.Layout[Coordinate.GetInstance(source.X, source.Y - 1)].Color != context.Layout[Coordinate.GetInstance(source.X, source.Y)].Color)
+                    c = Coordinate.GetInstance(source.X, source.Y + 1);
+
+                    if (context.Layout.ContainsKey(c) && context.Layout[c].Color != context.Layout[sourceCoordinates].Color)
                     {
-                        availableMoves.Add(Coordinate.GetInstance(source.X, source.Y - 1));
+                        availableMoves.Add(c);
                     }
                     else
                     {
-                        if (!context.Layout.ContainsKey(Coordinate.GetInstance(source.X, source.Y - 1)))
+                        if (!context.Layout.ContainsKey(c))
                         {
-                            availableMoves.Add(Coordinate.GetInstance(source.X, source.Y - 1));
+                            availableMoves.Add(c);
+                        }
+                    }
+                }
+                // sus
+                if (source.X >= 0 && source.Y - 1 >= 0 && source.X <= 7 && source.Y - 1 <= 7)
+                {
+                    c = Coordinate.GetInstance(source.X, source.Y - 1);
+
+                    if (context.Layout.ContainsKey(c) && context.Layout[c].Color != context.Layout[sourceCoordinates].Color)
+                    {
+                        availableMoves.Add(c);
+                    }
+                    else
+                    {
+                        if (!context.Layout.ContainsKey(c))
+                        {
+                            availableMoves.Add(c);
                         }
                     }
                 }
                 // dreapta sus
                 if (source.X + 1 >= 0 && source.Y - 1 >= 0 && source.X + 1 <= 7 && source.Y - 1 <= 7)
                 {
-                    if (context.Layout.ContainsKey(Coordinate.GetInstance(source.X + 1, source.Y - 1)) && context.Layout[Coordinate.GetInstance(source.X + 1, source.Y - 1)].Color != context.Layout[Coordinate.GetInstance(source.X, source.Y)].Color)
+                    c = Coordinate.GetInstance(source.X + 1, source.Y - 1);
+
+                    if (context.Layout.ContainsKey(c) && context.Layout[c].Color != context.Layout[sourceCoordinates].Color)
                     {
-                        availableMoves.Add(Coordinate.GetInstance(source.X + 1, source.Y - 1));
+                        availableMoves.Add(c);
                     }
                     else
                     {
-                        if (!context.Layout.ContainsKey(Coordinate.GetInstance(source.X + 1, source.Y - 1)))
+                        if (!context.Layout.ContainsKey(c))
                         {
-                            availableMoves.Add(Coordinate.GetInstance(source.X + 1, source.Y - 1));
+                            availableMoves.Add(c);
                         }
                     }
                 }
                 // dreapta jos
                 if (source.X + 1 >= 0 && source.Y + 1 >= 0 && source.X + 1 <= 7 && source.Y + 1 <= 7)
                 {
-                    if (context.Layout.ContainsKey(Coordinate.GetInstance(source.X + 1, source.Y + 1)) && context.Layout[Coordinate.GetInstance(source.X + 1, source.Y + 1)].Color != context.Layout[Coordinate.GetInstance(source.X, source.Y)].Color)
+                    c = Coordinate.GetInstance(source.X + 1, source.Y + 1);
+
+                    if (context.Layout.ContainsKey(c) && context.Layout[c].Color != context.Layout[sourceCoordinates].Color)
                     {
-                        availableMoves.Add(Coordinate.GetInstance(source.X + 1, source.Y + 1));
+                        availableMoves.Add(c);
                     }
                     else
                     {
-                        if (!context.Layout.ContainsKey(Coordinate.GetInstance(source.X + 1, source.Y + 1)))
+                        if (!context.Layout.ContainsKey(c))
                         {
-                            availableMoves.Add(Coordinate.GetInstance(source.X + 1, source.Y + 1));
+                            availableMoves.Add(c);
                         }
                     }
                 }
                 // stanga sus
                 if (source.X - 1 >= 0 && source.Y - 1 >= 0 && source.X - 1 <= 7 && source.Y - 1 <= 7)
                 {
-                    if (context.Layout.ContainsKey(Coordinate.GetInstance(source.X - 1, source.Y - 1)) && context.Layout[Coordinate.GetInstance(source.X - 1, source.Y - 1)].Color != context.Layout[Coordinate.GetInstance(source.X, source.Y)].Color)
+                    c = Coordinate.GetInstance(source.X - 1, source.Y - 1);
+
+                    if (context.Layout.ContainsKey(c) && context.Layout[c].Color != context.Layout[sourceCoordinates].Color)
                     {
-                        availableMoves.Add(Coordinate.GetInstance(source.X - 1, source.Y - 1));
+                        availableMoves.Add(c);
                     }
                     else
                     {
-                        if (!context.Layout.ContainsKey(Coordinate.GetInstance(source.X - 1, source.Y - 1)))
+                        if (!context.Layout.ContainsKey(c))
                         {
-                            availableMoves.Add(Coordinate.GetInstance(source.X - 1, source.Y - 1));
+                            availableMoves.Add(c);
                         }
                     }
                 }
                 // stanga jos
                 if (source.X - 1 >= 0 && source.Y + 1 >= 0 && source.X - 1 <= 7 && source.Y + 1 <= 7)
                 {
-                    if (context.Layout.ContainsKey(Coordinate.GetInstance(source.X - 1, source.Y + 1)) && context.Layout[Coordinate.GetInstance(source.X - 1, source.Y + 1)].Color != context.Layout[Coordinate.GetInstance(source.X, source.Y)].Color)
+                    c = Coordinate.GetInstance(source.X - 1, source.Y + 1);
+
+                    if (context.Layout.ContainsKey(c) && context.Layout[c].Color != context.Layout[sourceCoordinates].Color)
                     {
-                        availableMoves.Add(Coordinate.GetInstance(source.X - 1, source.Y + 1));
+                        availableMoves.Add(c);
                     }
                     else
                     {
-                        if (!context.Layout.ContainsKey(Coordinate.GetInstance(source.X - 1, source.Y + 1)))
+                        if (!context.Layout.ContainsKey(c))
                         {
-                            availableMoves.Add(Coordinate.GetInstance(source.X - 1, source.Y + 1));
+                            availableMoves.Add(c);
                         }
                     }
                 }
@@ -141,16 +160,22 @@ namespace ChessGame.Pieces
                 if (source.X - 3 >= 0 && source.Y >= 0 && source.X - 3 <= 7 && source.Y <= 7)
                 {
                     EmptyBetweenRookAndKing = true;
+
                     for (int i = 1; i < 3; i++)
                     {
-                        if (context.Layout.ContainsKey(Coordinate.GetInstance(source.X - i, source.Y)) && context.Layout[Coordinate.GetInstance(source.X - i, source.Y)] != null)
+                        c = Coordinate.GetInstance(source.X - i, source.Y);
+                        if (context.Layout.ContainsKey(c) && context.Layout[c] != null)
                         {
                             EmptyBetweenRookAndKing = false;
                             break;
                         }
                     }
 
-                    if (EmptyBetweenRookAndKing && (context.Layout.ContainsKey(Coordinate.GetInstance(source.X - 3, source.Y)) && context.Layout[Coordinate.GetInstance(source.X - 3, source.Y)].Color == context.Layout[Coordinate.GetInstance(source.X, source.Y)].Color && context.Layout[Coordinate.GetInstance(source.X - 3, source.Y)] != null && context.Layout[Coordinate.GetInstance(source.X - 3, source.Y)].Type == PieceType.Rook))
+                    Coordinate rookPosition = Coordinate.GetInstance(source.X - 3, source.Y);
+
+                    if (EmptyBetweenRookAndKing && (context.Layout.ContainsKey(rookPosition) 
+                        && context.Layout[rookPosition].Color == context.Layout[sourceCoordinates].Color
+                        && context.Layout[rookPosition] != null && context.Layout[rookPosition].Type == PieceType.Rook))
                     {
                         availableMoves.Add(Coordinate.GetInstance(source.X - 2, source.Y));
                     }
@@ -159,16 +184,23 @@ namespace ChessGame.Pieces
                 if (source.X + 4 >= 0 && source.Y >= 0 && source.X + 4 <= 7 && source.Y <= 7)
                 {
                     EmptyBetweenRookAndKing = true;
+
                     for (int i = 1; i <= 3; i++)
                     {
-                        if (context.Layout.ContainsKey(Coordinate.GetInstance(source.X + i, source.Y)) && context.Layout[Coordinate.GetInstance(source.X + i, source.Y)] != null)
+                        c = Coordinate.GetInstance(source.X + i, source.Y);
+
+                        if (context.Layout.ContainsKey(c) && context.Layout[c] != null)
                         {
                             EmptyBetweenRookAndKing = false;
                             break;
                         }
                     }
 
-                    if (EmptyBetweenRookAndKing && (context.Layout.ContainsKey(Coordinate.GetInstance(source.X + 4, source.Y)) && context.Layout[Coordinate.GetInstance(source.X + 4, source.Y)].Color == context.Layout[Coordinate.GetInstance(source.X, source.Y)].Color && context.Layout[Coordinate.GetInstance(source.X + 4, source.Y)] != null && context.Layout[Coordinate.GetInstance(source.X + 4, source.Y)].Type == PieceType.Rook))
+                    Coordinate rookPosition = Coordinate.GetInstance(source.X + 4, source.Y);
+
+                    if (EmptyBetweenRookAndKing && (context.Layout.ContainsKey(rookPosition) && 
+                        context.Layout[rookPosition].Color == context.Layout[sourceCoordinates].Color 
+                        && context.Layout[rookPosition] != null && context.Layout[rookPosition].Type == PieceType.Rook))
                     {
                         availableMoves.Add(Coordinate.GetInstance(source.X + 2, source.Y));
                     }

@@ -63,7 +63,7 @@ namespace ChessGame
             }
             catch (System.Exception ex)
             {
-                Logger.Log(ex.Message, ex.StackTrace);
+                Logger.Log(ex);
                 MessageBox.Show("Could not validate move");
             }
 
@@ -75,7 +75,7 @@ namespace ChessGame
             }
             catch (System.Exception ex)
             {
-                Logger.Log(ex.Message, ex.StackTrace);
+                Logger.Log(ex);
                 MessageBox.Show("Context could not be sent");
             }
 
@@ -84,7 +84,7 @@ namespace ChessGame
 
         private bool IsValid(Move move)
         {
-            /*
+            
             if (Context.Layout[move.Source].GetAvailableMoves(move.Source, Context).Contains(move.Target))
             {
                 return true;
@@ -93,8 +93,8 @@ namespace ChessGame
             {
                 throw new System.InvalidOperationException($"Invalid {Context.Layout[move.Source].Type} Move");
             }
-             */
-            return Context.Layout[move.Source].GetAvailableMoves(move.Source, Context).Contains(move.Target);
+             
+            //return Context.Layout[move.Source].GetAvailableMoves(move.Source, Context).Contains(move.Target);
             
         }
 

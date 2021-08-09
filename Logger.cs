@@ -5,14 +5,13 @@ namespace ChessGame
 {
     public class Logger
     {
-        public static void Log(string message, string stackTrace)
+        public static void Log(Exception ex)
         {
             Console.Write("\r\nLog Entry : ");
             Console.WriteLine($"{DateTime.Now.ToLongTimeString()} {DateTime.Now.ToLongDateString()}");
-            Console.WriteLine("  :");
-            Console.WriteLine($"  :{message}");
+            Console.WriteLine($"  :{ex.Message}");
             Console.WriteLine("-------------------------------");
-            Console.WriteLine($"  :{stackTrace}");
+            Console.WriteLine($"  :{ex.StackTrace}");
 
         }
     }

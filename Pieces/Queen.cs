@@ -12,7 +12,6 @@ namespace ChessGame.Pieces
         public override List<Coordinate> GetAvailableMoves(Coordinate source, GameContext context)
         {
             List<Coordinate> availableMoves = new();
-            var sourcePiece = context.Layout[Coordinate.GetInstance(source.X, source.Y)];
 
             if (context.ColorToMove == Color)
             {

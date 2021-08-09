@@ -12,7 +12,6 @@ namespace ChessGame.Pieces
         public override List<Coordinate> GetAvailableMoves(Coordinate source, GameContext context)
         {
             List<Coordinate> availableMoves = new();
-            var sourcePiece = context.Layout[Coordinate.GetInstance(source.X, source.Y)];
 
             if (context.ColorToMove == Color)
             {
@@ -60,7 +59,7 @@ namespace ChessGame.Pieces
                     availableMoves.Add(c);
                 }
 
-                // sus
+                // jos
                 for (int i = 1; i < 7; i++)
                 {
                     if (source.X < 0 || source.X > 7 || source.Y - i < 0 || source.Y - i > 7)
@@ -81,7 +80,7 @@ namespace ChessGame.Pieces
                     availableMoves.Add(c);
                 }
 
-                // jos
+                // sus
                 for (int i = 1; i < 7; i++)
                 {
                     if (source.X < 0 || source.X  > 7 || source.Y + i < 0 || source.Y + i > 7)

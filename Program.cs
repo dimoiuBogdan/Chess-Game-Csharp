@@ -12,6 +12,9 @@ namespace ChessGame
         [STAThread]
         static void Main()
         {
+            StreamWriter writer = new("log.txt");
+            Console.SetOut(writer);
+
             Application.SetHighDpiMode(HighDpiMode.SystemAware);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);

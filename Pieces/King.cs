@@ -4,6 +4,8 @@ namespace ChessGame.Pieces
 {
     public class King : APiece
     {
+        private bool EmptyBetweenRookAndKing = true;
+
         public King(PieceColor color) : base(color, PieceType.King)
         {
 
@@ -135,20 +137,40 @@ namespace ChessGame.Pieces
                         }
                     }
                 }
-                // rocada dreapta
-                if (source.X + 2 >= 0 && source.Y >= 0 && source.X + 2 <= 7 && source.Y <= 7)
+                // rocada mica
+                if (source.X - 3 >= 0 && source.Y >= 0 && source.X - 3 <= 7 && source.Y <= 7)
                 {
-                    if (context.Layout.ContainsKey(Coordinate.GetInstance(source.X + 2, source.Y)) && context.Layout[Coordinate.GetInstance(source.X + 2, source.Y)].Color == context.Layout[Coordinate.GetInstance(source.X, source.Y)].Color && context.Layout.ContainsKey(Coordinate.GetInstance(source.X + 2, source.Y)) && context.Layout[Coordinate.GetInstance(source.X + 2, source.Y)] != null && context.Layout[Coordinate.GetInstance(source.X + 2, source.Y)].Type == PieceType.Rook)
+                    EmptyBetweenRookAndKing = true;
+                    for (int i = 1; i < 3; i++)
                     {
-                        availableMoves.Add(Coordinate.GetInstance(source.X + 2, source.Y));
+                        if (context.Layout.ContainsKey(Coordinate.GetInstance(source.X - i, source.Y)) && context.Layout[Coordinate.GetInstance(source.X - i, source.Y)] != null)
+                        {
+                            EmptyBetweenRookAndKing = false;
+                            break;
+                        }
                     }
-                }
-                // rocada stanga
-                if (source.X - 2 >= 0 && source.Y >= 0 && source.X - 2 <= 7 && source.Y <= 7)
-                {
-                    if (context.Layout.ContainsKey(Coordinate.GetInstance(source.X - 2, source.Y)) && context.Layout[Coordinate.GetInstance(source.X - 2, source.Y)].Color == context.Layout[Coordinate.GetInstance(source.X, source.Y)].Color && context.Layout.ContainsKey(Coordinate.GetInstance(source.X - 2, source.Y)) && context.Layout[Coordinate.GetInstance(source.X - 2, source.Y)] != null && context.Layout[Coordinate.GetInstance(source.X - 2, source.Y)].Type == PieceType.Rook)
+
+                    if (EmptyBetweenRookAndKing && (context.Layout.ContainsKey(Coordinate.GetInstance(source.X - 3, source.Y)) && context.Layout[Coordinate.GetInstance(source.X - 3, source.Y)].Color == context.Layout[Coordinate.GetInstance(source.X, source.Y)].Color && context.Layout[Coordinate.GetInstance(source.X - 3, source.Y)] != null && context.Layout[Coordinate.GetInstance(source.X - 3, source.Y)].Type == PieceType.Rook))
                     {
                         availableMoves.Add(Coordinate.GetInstance(source.X - 2, source.Y));
+                    }
+                }
+                // rocada mica
+                if (source.X + 4 >= 0 && source.Y >= 0 && source.X + 4 <= 7 && source.Y <= 7)
+                {
+                    EmptyBetweenRookAndKing = true;
+                    for (int i = 1; i <= 3; i++)
+                    {
+                        if (context.Layout.ContainsKey(Coordinate.GetInstance(source.X + i, source.Y)) && context.Layout[Coordinate.GetInstance(source.X + i, source.Y)] != null)
+                        {
+                            EmptyBetweenRookAndKing = false;
+                            break;
+                        }
+                    }
+
+                    if (EmptyBetweenRookAndKing && (context.Layout.ContainsKey(Coordinate.GetInstance(source.X + 4, source.Y)) && context.Layout[Coordinate.GetInstance(source.X + 4, source.Y)].Color == context.Layout[Coordinate.GetInstance(source.X, source.Y)].Color && context.Layout[Coordinate.GetInstance(source.X + 4, source.Y)] != null && context.Layout[Coordinate.GetInstance(source.X + 4, source.Y)].Type == PieceType.Rook))
+                    {
+                        availableMoves.Add(Coordinate.GetInstance(source.X + 2, source.Y));
                     }
                 }
             }

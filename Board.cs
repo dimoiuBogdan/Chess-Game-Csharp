@@ -37,10 +37,19 @@ namespace ChessGame
 
         public void Referee_ContextChanged(object sender, ChangedContextEventArgs e)
         {
-            // 6. Ne folosim de datele transportate
-            Context = e.Context;
+            try
+            {
+                // 6. Ne folosim de datele transportate
+                Context = e.Context;
 
-            Refresh();
+                Refresh();
+            }
+            catch (System.Exception ex)
+            {
+                Logger.Log($"{ex.Message} in board", ex.StackTrace);
+                MessageBox.Show($"{ex.Message} in board");
+            }
+
         }
 
         private void Board_MouseUp(object sender, MouseEventArgs e)
@@ -134,9 +143,17 @@ namespace ChessGame
 
         protected override void OnPaint(PaintEventArgs e)
         {
-            DrawBoard(e.Graphics);
-            DrawPieces(e.Graphics);
-            DrawAvailableMoves(e.Graphics);
+            try
+            {
+                DrawBoard(e.Graphics);
+                DrawPieces(e.Graphics);
+                DrawAvailableMoves(e.Graphics);
+            }
+            catch (System.Exception ex)
+            {
+                Logger.Log(ex.Message, ex.StackTrace);
+                MessageBox.Show(ex.Message);
+            }
         }
 
         public void DrawBoard(Graphics g)
@@ -165,6 +182,8 @@ namespace ChessGame
 
         public void DrawAvailableMoves(Graphics g)
         {
+            //throw new System.Exception("Available moves could not be drawn");
+
             if (AvailableMoves != null)
             {
                 foreach (var availableMove in AvailableMoves)

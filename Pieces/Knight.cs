@@ -16,7 +16,7 @@ namespace ChessGame.Pieces
             if (context.ColorToMove == Color)
             {
                 // dreapta sus
-                if (source.X + 1 >= 0 && source.X + 1 >= 0 && source.Y - 2 >= 0 && source.Y - 2 <= 7)
+                if (source.X + 1 >= 0 && source.X + 1 <= 7 && source.Y - 2 >= 0 && source.Y - 2 <= 7)
                 {
                     if (context.Layout.ContainsKey(Coordinate.GetInstance(source.X + 1, source.Y - 2)))
                     {
@@ -31,7 +31,7 @@ namespace ChessGame.Pieces
                     }
                 }
                 // dreapta jos
-                if (source.X + 1 <= 7 && source.Y + 2 >= 0 && source.X + 1 >= 0 && source.Y + 2 <= 7)
+                if (source.X + 1 >= 0 && source.X + 1 <= 7 && source.Y + 2 >= 0 && source.Y + 2 <= 7)
                 {
                     if (context.Layout.ContainsKey(Coordinate.GetInstance(source.X + 1, source.Y + 2)))
                     {

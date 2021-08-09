@@ -1,4 +1,5 @@
 ﻿using ChessGame.Pieces;
+using System.Windows.Forms;
 
 namespace ChessGame
 {
@@ -9,6 +10,9 @@ namespace ChessGame
         // 1. Declaram delegatul si evenimentul ( + clasa de EventArgs )
         public delegate void ChangedContextHandler(object sender, ChangedContextEventArgs e);
         public event ChangedContextHandler ContextChanged;
+
+        public bool RightCastling { get; set; }
+        public Coordinate CastlePosition { get; set; }
 
         public Referee()
         {
@@ -35,41 +39,73 @@ namespace ChessGame
 
         public void Board_MoveProposed(object sender, MoveProposedEventArgs e)
         {
-            if (IsValid(e.Move))
+            try
             {
-                if (IsCastling(e.Move))
+                if (IsValid(e.Move))
                 {
-                    Move reversedMove = new(e.Move.Target, e.Move.Source);
-                    Context.Layout.Move(reversedMove);
-                }
-       
-                Context.Layout.Move(e.Move);
+                    if (IsCastling(e.Move))
+                    {
+                        Move castling = new(CastlePosition, Coordinate.GetInstance(RightCastling ? e.Move.Source.X + 1 : e.Move.Source.X - 2, e.Move.Source.Y));
+                        Context.Layout.Move(castling);
+                    }
 
-                if (Context.ColorToMove == PieceColor.Black)
-                {
-                    Context.ColorToMove = PieceColor.White;
-                }
-                else
-                {
-                    Context.ColorToMove = PieceColor.Black;
+                    Context.Layout.Move(e.Move);
+
+                    if (Context.ColorToMove == PieceColor.Black)
+                    {
+                        Context.ColorToMove = PieceColor.White;
+                    }
+                    else
+                    {
+                        Context.ColorToMove = PieceColor.Black;
+                    }
                 }
             }
+            catch (System.Exception ex)
+            {
+                Logger.Log(ex.Message, ex.StackTrace);
+                MessageBox.Show("Could not validate move");
+            }
 
-            ChangedContextEventArgs changedContextArgs = new(Context.Clone());
+            try
+            {
+                ChangedContextEventArgs changedContextArgs = new(Context.Clone());
 
-            ContextChanged?.Invoke(this, changedContextArgs);
+                ContextChanged?.Invoke(this, changedContextArgs);
+            }
+            catch (System.Exception ex)
+            {
+                Logger.Log(ex.Message, ex.StackTrace);
+                MessageBox.Show("Context could not be sent");
+            }
+
+
         }
 
         private bool IsValid(Move move)
         {
+            /*
+            if (Context.Layout[move.Source].GetAvailableMoves(move.Source, Context).Contains(move.Target))
+            {
+                return true;
+            }
+            else
+            {
+                throw new System.InvalidOperationException($"Invalid {Context.Layout[move.Source].Type} Move");
+            }
+             */
             return Context.Layout[move.Source].GetAvailableMoves(move.Source, Context).Contains(move.Target);
+            
         }
 
         public bool IsCastling(Move move)
         {
-            if (Context.Layout.ContainsKey(move.Source) && Context.Layout.ContainsKey(move.Target))
+            if (Context.Layout[move.Source].Type == PieceType.King)
             {
-                if ((Context.Layout[move.Source].Color == Context.Layout[move.Target].Color) && (Context.Layout[move.Source].Type == PieceType.King && Context.Layout[move.Target].Type == PieceType.Rook))
+                RightCastling = move.Target.X == 5;
+                CastlePosition = Coordinate.GetInstance(RightCastling ? move.Target.X + 2 : move.Target.X - 1, move.Target.Y);
+
+                if (Context.Layout.ContainsKey(CastlePosition) && (Context.Layout[move.Source].Color == Context.Layout[CastlePosition].Color))
                 {
                     return true;
                 }

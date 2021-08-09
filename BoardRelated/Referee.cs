@@ -105,9 +105,9 @@ namespace ChessGame
                 RightCastling = move.Target.X == 5;
                 RookPosition = Coordinate.GetInstance(RightCastling ? move.Target.X + 2 : move.Target.X - 1, move.Target.Y);
 
+                return Context.Layout.ContainsKey(RookPosition) && Context.Layout[RookPosition].Type == PieceType.Rook && (Context.Layout[move.Source].Color == Context.Layout[RookPosition].Color);
             }
-            return Context.Layout.ContainsKey(RookPosition) && Context.Layout[RookPosition].Type == PieceType.Rook && (Context.Layout[move.Source].Color == Context.Layout[RookPosition].Color);
-            //return false;
+            return false;
         }
 
         public void Cleanup()

@@ -7,7 +7,7 @@ namespace ChessGame
     public class Board : Panel
     {
         private const int Border = 3;
-        private Pen borderPen = new(Color.Gold, 5);
+        private readonly Pen borderPen = new(Color.Gold, 5);
 
         public GameContext Context { get; set; }
 

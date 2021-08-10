@@ -1,8 +1,0 @@
-
-Log Entry : 16:39:47 10 August 2021
-  :Unable to cast object of type 'Newtonsoft.Json.Linq.JObject' to type 'ChessGame.GameContext'.
--------------------------------
-  :   at ChessGame.Referee.LoadContext() in C:\Users\Bogdan\Downloads\ChessGame-master\BoardRelated\Referee.cs:line 35
-   at ChessGame.Referee.Start() in C:\Users\Bogdan\Downloads\ChessGame-master\BoardRelated\Referee.cs:line 40
-   at ChessGame.Game.Start() in C:\Users\Bogdan\Downloads\ChessGame-master\BoardRelated\Game.cs:line 29
-   at ChessGame.GameForm.StartToolStripMenuItem_Click(Object sender, EventArgs e) in C:\Users\Bogdan\Downloads\ChessGame-master\GameForm.cs:line 44

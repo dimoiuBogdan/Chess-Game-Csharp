@@ -15,25 +15,25 @@ namespace ChessGame.Pieces
 
             if (context.ColorToMove == Color)
             {
-                Coordinate moveTwoCells, moveOneCell;
+                Coordinate moveTwoCells;
                 bool isOneCellEmpty;
                 bool isUp = Color == PieceColor.Black;
                 bool isFirstMove = isUp ? initialCoordinates.Y == 1 : initialCoordinates.Y == 6;
+                isOneCellEmpty = isUp ? initialCoordinates.Y + 1 <= 7 : initialCoordinates.Y - 1 >= 0;
 
-                moveTwoCells = Coordinate.GetInstance(initialCoordinates.X, isUp ? initialCoordinates.Y + 2 : initialCoordinates.Y - 2);
-                moveOneCell = Coordinate.GetInstance(initialCoordinates.X, isUp ? initialCoordinates.Y + 1 : initialCoordinates.Y - 1);
-                isOneCellEmpty = isUp ? initialCoordinates.Y + 1 <= 7 : initialCoordinates.Y - 1 <= 7 && isUp ? initialCoordinates.Y + 1 >= 0 : initialCoordinates.Y - 1 >= 0;
-
-
-                if (isFirstMove && !context.Layout.ContainsKey(moveTwoCells) && !context.Layout.ContainsKey(moveOneCell)
-                    && (isUp ? initialCoordinates.Y + 2 <= 7 : initialCoordinates.Y - 2 <= 7
-                    && isUp ? initialCoordinates.Y + 2 >= 0 : initialCoordinates.Y - 2 >= 0))
+                if (isUp ? initialCoordinates.Y + 2 <= 7 : initialCoordinates.Y - 2 <= 7
+                    && isUp ? initialCoordinates.Y + 2 >= 0 : initialCoordinates.Y - 2 >= 0)
                 {
-                    availableMoves.Add(moveTwoCells);
+                    moveTwoCells = Coordinate.GetInstance(initialCoordinates.X, isUp ? initialCoordinates.Y + 2 : initialCoordinates.Y - 2);
+                    if (isFirstMove && !context.Layout.ContainsKey(moveTwoCells) && !context.Layout.ContainsKey(Coordinate.GetInstance(initialCoordinates.X, isUp ? initialCoordinates.Y + 1 : initialCoordinates.Y - 1)))
+                    {
+                        availableMoves.Add(moveTwoCells);
+                    }
                 }
-                if ((isOneCellEmpty) && !context.Layout.ContainsKey(moveOneCell))
+
+                if (isOneCellEmpty && !context.Layout.ContainsKey(Coordinate.GetInstance(initialCoordinates.X, isUp ? initialCoordinates.Y + 1 : initialCoordinates.Y - 1)))
                 {
-                    availableMoves.Add(moveOneCell);
+                    availableMoves.Add(Coordinate.GetInstance(initialCoordinates.X, isUp ? initialCoordinates.Y + 1 : initialCoordinates.Y - 1));
                 }
 
                 if (isOneCellEmpty)

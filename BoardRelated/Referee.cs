@@ -43,7 +43,7 @@ namespace ChessGame
             // 5. Invocam metoda in cazul in care avem ascultatori ( vezi clasa inregistrata ca ascultator )
             ContextChanged?.Invoke(this, changedContextArgs);
 
-            ContextAdapter.AdaptedContext = Context;
+            ContextAdapter.AdaptedContext = Context.Clone();
 
         }
 
@@ -71,7 +71,7 @@ namespace ChessGame
                     }
                 }
 
-                ContextAdapter.AdaptedContext = Context;
+                ContextAdapter.AdaptedContext = Context.Clone();
             }
             catch (System.Exception ex)
             {

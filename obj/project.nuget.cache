@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "H91yI9uHQsSFrQfhnAXbw/L7WUohQPa/zYPxI6HNYVVXNzGCYhk7m85XGvXfZ9IYOkqQXl01wvclpNK2BGNb5Q==",
+  "dgSpecHash": "5mZd66dIYf0LYzBauxwRyhJc2sO7jxyimD8ZyQjHsrILrFJl9LqpAw5K1pV+SxGokr5CIKji0A1O+t5Evl7+ow==",
   "success": true,
   "projectFilePath": "C:\\Users\\Bogdan\\Downloads\\ChessGame-master\\ChessGame.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\Bogdan\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512"
+  ],
   "logs": []
 }

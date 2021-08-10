@@ -67,26 +67,27 @@ namespace ChessGame
             // StartToolStripMenuItem
             // 
             this.StartToolStripMenuItem.Name = "StartToolStripMenuItem";
-            this.StartToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
+            this.StartToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.StartToolStripMenuItem.Text = "&Start";
             this.StartToolStripMenuItem.Click += new System.EventHandler(this.StartToolStripMenuItem_Click);
             // 
             // SaveToolStripMenuItem
             // 
             this.SaveToolStripMenuItem.Name = "SaveToolStripMenuItem";
-            this.SaveToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
+            this.SaveToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.SaveToolStripMenuItem.Text = "Save";
+            this.SaveToolStripMenuItem.Click += new System.EventHandler(this.SaveToolStripMenuItem_Click);
             // 
             // LoadToolStripMenuItem
             // 
             this.LoadToolStripMenuItem.Name = "LoadToolStripMenuItem";
-            this.LoadToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
+            this.LoadToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.LoadToolStripMenuItem.Text = "Load";
             // 
             // ExitToolStripMenuItem
             // 
             this.ExitToolStripMenuItem.Name = "ExitToolStripMenuItem";
-            this.ExitToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
+            this.ExitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.ExitToolStripMenuItem.Text = "&Exit";
             this.ExitToolStripMenuItem.Click += new System.EventHandler(this.ExitToolStripMenuItem_Click);
             // 

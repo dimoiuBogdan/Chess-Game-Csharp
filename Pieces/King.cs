@@ -26,8 +26,6 @@ namespace ChessGame.Pieces
             {
                 Coordinate c;
 
- 
-
                 // dreapta
                 if (source.X + 1 >= 0 && source.Y >= 0 && source.X + 1 <= 7 && source.Y <= 7)
                 {

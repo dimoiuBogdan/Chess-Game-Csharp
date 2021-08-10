@@ -12,13 +12,14 @@ namespace ChessGame.Pieces
         public override List<Coordinate> GetAvailableMoves(Coordinate initialCoordinates, GameContext context)
         {
             List<Coordinate> availableMoves = new();
-            Coordinate moveTwoCells, moveOneCell;
-            bool isOneCellEmpty;
-            bool isUp = Color == PieceColor.Black;
-            bool isFirstMove = isUp ? initialCoordinates.Y == 1 : initialCoordinates.Y == 6;
 
             if (context.ColorToMove == Color)
             {
+                Coordinate moveTwoCells, moveOneCell;
+                bool isOneCellEmpty;
+                bool isUp = Color == PieceColor.Black;
+                bool isFirstMove = isUp ? initialCoordinates.Y == 1 : initialCoordinates.Y == 6;
+
                 moveTwoCells = Coordinate.GetInstance(initialCoordinates.X, isUp ? initialCoordinates.Y + 2 : initialCoordinates.Y - 2);
                 moveOneCell = Coordinate.GetInstance(initialCoordinates.X, isUp ? initialCoordinates.Y + 1 : initialCoordinates.Y - 1);
                 isOneCellEmpty = isUp ? initialCoordinates.Y + 1 <= 7 : initialCoordinates.Y - 1 <= 7 && isUp ? initialCoordinates.Y + 1 >= 0 : initialCoordinates.Y - 1 >= 0;

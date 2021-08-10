@@ -17,3 +17,5 @@ C:\Users\Bogdan\Downloads\ChessGame-master\obj\Debug\net5.0-windows\ChessGame.dl
 C:\Users\Bogdan\Downloads\ChessGame-master\obj\Debug\net5.0-windows\ref\ChessGame.dll
 C:\Users\Bogdan\Downloads\ChessGame-master\obj\Debug\net5.0-windows\ChessGame.pdb
 C:\Users\Bogdan\Downloads\ChessGame-master\obj\Debug\net5.0-windows\ChessGame.genruntimeconfig.cache
+C:\Users\Bogdan\Downloads\ChessGame-master\bin\Debug\net5.0-windows\Newtonsoft.Json.dll
+C:\Users\Bogdan\Downloads\ChessGame-master\obj\Debug\net5.0-windows\ChessGame.csproj.CopyComplete

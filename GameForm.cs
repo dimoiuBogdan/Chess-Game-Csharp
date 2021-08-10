@@ -1,5 +1,5 @@
-﻿using System;
-using System.IO;
+﻿using Newtonsoft.Json;
+using System;
 using System.Windows.Forms;
 
 namespace ChessGame
@@ -49,7 +49,15 @@ namespace ChessGame
                 MessageBox.Show("Game could not start");
             }
 
+        }
 
+        private void SaveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ContextAdapter adaptedContext = new();
+
+            string serializedContext = JsonConvert.SerializeObject(adaptedContext, Formatting.Indented);
+
+            GameSaver.Save(serializedContext);
         }
 
         protected override void OnResize(EventArgs e)

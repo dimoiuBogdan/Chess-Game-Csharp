@@ -84,18 +84,7 @@ namespace ChessGame
 
         private bool IsValid(Move move)
         {
-
-            if (Context.Layout[move.Source].GetAvailableMoves(move.Source, Context).Contains(move.Target))
-            {
-                return true;
-            }
-            else
-            {
-                throw new System.InvalidOperationException($"Invalid {Context.Layout[move.Source].Type} Move");
-            }
-
-            //return Context.Layout[move.Source].GetAvailableMoves(move.Source, Context).Contains(move.Target);
-
+            return Context.Layout[move.Source].GetAvailableMoves(move.Source, Context).Contains(move.Target);
         }
 
         public bool IsCastling(Move move)
@@ -122,3 +111,4 @@ namespace ChessGame
 }
 
 // Ce constructor se apeleaza ( in C++ cand dai return din constructor, se returneaza o clona )
+// Salvam din context in adaptor fix ce ne trebuie, serializam adaptorul si deserializam in adaptor, transmitand inapoi in context

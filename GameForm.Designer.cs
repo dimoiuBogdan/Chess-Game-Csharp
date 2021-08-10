@@ -83,6 +83,7 @@ namespace ChessGame
             this.LoadToolStripMenuItem.Name = "LoadToolStripMenuItem";
             this.LoadToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.LoadToolStripMenuItem.Text = "Load";
+            this.LoadToolStripMenuItem.Click += new System.EventHandler(this.LoadToolStripMenuItem_Click);
             // 
             // ExitToolStripMenuItem
             // 

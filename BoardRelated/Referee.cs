@@ -1,4 +1,5 @@
 ﻿using ChessGame.Pieces;
+using Newtonsoft.Json;
 using System.Windows.Forms;
 
 namespace ChessGame
@@ -6,6 +7,7 @@ namespace ChessGame
     public class Referee
     {
         private GameContext Context { get; set; }
+        public ContextAdapter AdaptedContext { get; set; }
 
         // 1. Declaram delegatul si evenimentul ( + clasa de EventArgs )
         public delegate void ChangedContextHandler(object sender, ChangedContextEventArgs e);
@@ -28,6 +30,11 @@ namespace ChessGame
             Context.Layout.Initialize();
         }
 
+        public void LoadContext()
+        {
+            Context = (GameContext)JsonConvert.DeserializeObject(GameLoader.fileContent);
+        }
+
         public void Start()
         {
             // 4. Transmitem parametrii
@@ -35,6 +42,9 @@ namespace ChessGame
 
             // 5. Invocam metoda in cazul in care avem ascultatori ( vezi clasa inregistrata ca ascultator )
             ContextChanged?.Invoke(this, changedContextArgs);
+
+            ContextAdapter.AdaptedContext = Context;
+
         }
 
         public void Board_MoveProposed(object sender, MoveProposedEventArgs e)
@@ -60,6 +70,8 @@ namespace ChessGame
                         Context.ColorToMove = PieceColor.Black;
                     }
                 }
+
+                ContextAdapter.AdaptedContext = Context;
             }
             catch (System.Exception ex)
             {
@@ -111,4 +123,3 @@ namespace ChessGame
 }
 
 // Ce constructor se apeleaza ( in C++ cand dai return din constructor, se returneaza o clona )
-// Salvam din context in adaptor fix ce ne trebuie, serializam adaptorul si deserializam in adaptor, transmitand inapoi in context

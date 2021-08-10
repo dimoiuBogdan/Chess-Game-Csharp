@@ -53,11 +53,14 @@ namespace ChessGame
 
         private void SaveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ContextAdapter adaptedContext = new();
-
-            string serializedContext = JsonConvert.SerializeObject(adaptedContext, Formatting.Indented);
+            string serializedContext = JsonConvert.SerializeObject(ContextAdapter.AdaptedContext, Formatting.Indented);
 
             GameSaver.Save(serializedContext);
+        }
+
+        private void LoadToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            GameLoader.Load();
         }
 
         protected override void OnResize(EventArgs e)

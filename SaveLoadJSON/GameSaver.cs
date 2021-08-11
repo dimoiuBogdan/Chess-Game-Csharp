@@ -1,26 +1,16 @@
-﻿using System.IO;
-using System.Windows.Forms;
+﻿using Newtonsoft.Json;
+using System.IO;
 
 namespace ChessGame
 {
     public class GameSaver
     {
-        public static void Save(string file)
+        public static void Save(string fileName)
         {
-            SaveFileDialog saveFileWindow = new()
-            {
-                Filter = "json files (*.json)|*.json|All files (*.*)|*.*",
-                DefaultExt = "json",
-                FilterIndex = 1,
-                RestoreDirectory = true,
-                FileName = "Chess Game Context"
-            };
+            string serializedContext = JsonConvert.SerializeObject(ContextAdapter.newContext, Formatting.Indented);
 
-            if (saveFileWindow.ShowDialog() == DialogResult.OK)
-            {
-                using StreamWriter sw = new(saveFileWindow.FileName);
-                sw.Write(file);
-            }
+            using StreamWriter sw = new(fileName);
+            sw.Write(serializedContext);
         }
     }
 }

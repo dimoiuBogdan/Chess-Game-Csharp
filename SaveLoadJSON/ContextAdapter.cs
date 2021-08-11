@@ -4,20 +4,24 @@ namespace ChessGame
 {
     public class ContextAdapter
     {
-        public GameContext Context;
+        public GameContext ReceivedContext;
+        public static GameContext newContext;
         public List<Coordinate> AdaptedCoordinates = new();
-        public Dictionary<Coordinate, APiece> AdaptedLayout = new();
 
         public ContextAdapter(GameContext actualContext)
         {
-            Context = actualContext;
+            ReceivedContext = actualContext;
         }
 
         public void PopulateCoordinates()
         {
-            if (Context != null && Context.Layout != null)
+            newContext = new();
+            newContext.Layout = new();
+            newContext.ColorToMove = new();
+
+            if (ReceivedContext != null && ReceivedContext.Layout != null)
             {
-                foreach (KeyValuePair<Coordinate, APiece> piece in Context.Layout)
+                foreach (KeyValuePair<Coordinate, APiece> piece in ReceivedContext.Layout)
                 {
                     AdaptedCoordinates.Add(piece.Key);
                 }
@@ -27,20 +31,40 @@ namespace ChessGame
         public void PopulateLayout()
         {
             PopulateCoordinates();
-            if (Context != null && Context.Layout != null && AdaptedCoordinates != null)
+            if (ReceivedContext != null && ReceivedContext.Layout != null && AdaptedCoordinates != null)
             {
                 var i = 0;
-                foreach (KeyValuePair<Coordinate, APiece> piece in Context.Layout)
+                foreach (KeyValuePair<Coordinate, APiece> piece in ReceivedContext.Layout)
                 {
-                    AdaptedLayout.Add(AdaptedCoordinates[i], piece.Value);
+                    newContext.Layout.Add(AdaptedCoordinates[i], piece.Value);
                     i++;
                 }
             }
+            newContext.ColorToMove = ReceivedContext.ColorToMove;
 
-            foreach (KeyValuePair<Coordinate, APiece> kvp in AdaptedLayout)
+            foreach (KeyValuePair<Coordinate, APiece> kvp in newContext.Layout)
             {
                 Logger.Display(string.Format("X = {0}, Y = {1}, Value = {2}", kvp.Key.X, kvp.Key.Y, kvp.Value));
             }
+        }
+
+        public void PopulateContext(GameContext context)
+        {
+            if (ReceivedContext != null && ReceivedContext.Layout != null && AdaptedCoordinates != null)
+            {
+                foreach (KeyValuePair<Coordinate, APiece> piece in ReceivedContext.Layout)
+                {
+                    AdaptedCoordinates.Add(piece.Key);
+                }
+
+                var i = 0;
+                foreach (KeyValuePair<Coordinate, APiece> piece in ReceivedContext.Layout)
+                {
+                    context.Layout.Add(AdaptedCoordinates[i], piece.Value);
+                    i++;
+                }
+            }
+            context.ColorToMove = ReceivedContext.ColorToMove;
         }
     }
 }

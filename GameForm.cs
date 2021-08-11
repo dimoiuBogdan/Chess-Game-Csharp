@@ -28,7 +28,6 @@ namespace ChessGame
 
         private void StartToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //throw new Exception("Game could not start. Try again later.");
             try
             {
                 if (GameLoader.fileContent == null)
@@ -57,9 +56,19 @@ namespace ChessGame
 
         private void SaveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string serializedContext = JsonConvert.SerializeObject(Game.Referee.Adapted.Context, Formatting.Indented);
+            SaveFileDialog saveFileWindow = new()
+            {
+                Filter = "json files (*.json)|*.json|All files (*.*)|*.*",
+                DefaultExt = "json",
+                FilterIndex = 1,
+                RestoreDirectory = true,
+                FileName = "Chess Game Context"
+            };
 
-            GameSaver.Save(serializedContext);
+            if (saveFileWindow.ShowDialog() == DialogResult.OK)
+            {
+                GameSaver.Save(saveFileWindow.FileName);
+            }
         }
 
         private void LoadToolStripMenuItem_Click(object sender, EventArgs e)
@@ -70,7 +79,7 @@ namespace ChessGame
                 Game.Initialize();
             }
 
-            Game.Loader.Load();
+            GameLoader.Load();
         }
 
         protected override void OnResize(EventArgs e)

@@ -7,7 +7,7 @@ namespace ChessGame
     public class Referee
     {
         public GameContext Context { get; set; }
-        public ContextAdapter Adapted { get; set; }
+        public ContextAdapter AdaptedContext { get; set; }
 
         // 1. Declaram delegatul si evenimentul ( + clasa de EventArgs )
         public delegate void ChangedContextHandler(object sender, ChangedContextEventArgs e);
@@ -29,19 +29,17 @@ namespace ChessGame
 
             Context.Layout.Initialize();
 
-            Adapted = new(Context);
+            AdaptedContext = new(Context.Clone());
+            AdaptedContext.PopulateLayout();
         }
 
         public void Start()
         {
             if (GameLoader.fileContent != null)
             {
-                Adapted = new(JsonConvert.DeserializeObject<GameContext>(GameLoader.fileContent));
+                AdaptedContext = new(JsonConvert.DeserializeObject<GameContext>(GameLoader.fileContent));
+                AdaptedContext.PopulateContext(Context);
             }
-
-            //Adapted.PopulateLayout();
-
-            //Context = Adapted;
 
             // 4. Transmitem parametrii
             ChangedContextEventArgs changedContextArgs = new(Context.Clone());
@@ -72,6 +70,9 @@ namespace ChessGame
                     {
                         Context.ColorToMove = PieceColor.Black;
                     }
+
+                    AdaptedContext.ReceivedContext = Context.Clone();
+                    AdaptedContext.PopulateLayout();
                 }
             }
             catch (System.Exception ex)
@@ -91,8 +92,6 @@ namespace ChessGame
                 Logger.Log(ex);
                 MessageBox.Show("Context could not be sent");
             }
-
-
         }
 
         private bool IsValid(Move move)

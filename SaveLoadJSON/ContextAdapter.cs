@@ -8,6 +8,15 @@ namespace ChessGame
         public static GameContext newContext;
         public List<Coordinate> AdaptedCoordinates = new();
 
+        // Fara static
+        // Fara metode in adaptor
+        // Fara GameContext in adaptor
+        // Din loader primesc direc ContextAdapter
+        // Metodele se fac in gameSaver si gameLoader
+        // Trebuie sa am BoardLayout de tip Dictionar<AdaptedCoordinate, APiece>
+        // AdaptedCoordinates de tip <AdaptedCoordinate>
+        // Adaptoarele sunt clase in oglina a celor private
+
         public ContextAdapter(GameContext actualContext)
         {
             ReceivedContext = actualContext;

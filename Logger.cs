@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace ChessGame
@@ -12,7 +13,12 @@ namespace ChessGame
             Console.WriteLine($"  :{ex.Message}");
             Console.WriteLine("-------------------------------");
             Console.WriteLine($"  :{ex.StackTrace}");
+        }
 
+        public static void Display(object thing)
+        {
+            Console.Write("\r\nLog Entry : ");
+            Console.WriteLine($"  :{thing}");
         }
     }
 }

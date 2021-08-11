@@ -4,7 +4,7 @@
     {
         public Board Board;
         public Referee Referee;
-
+        public GameLoader Loader;
         public Game()
         {
 
@@ -14,6 +14,7 @@
         {
             Board = new();
             Referee = new();
+            Loader = new();
 
             Board.Initialize();
             Referee.Initialize();
@@ -37,6 +38,7 @@
             Referee.Cleanup();
             Board.Cleanup();
 
+            Loader = null;
             Referee = null;
             Board = null;
         }

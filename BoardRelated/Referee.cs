@@ -6,8 +6,8 @@ namespace ChessGame
 {
     public class Referee
     {
-        private GameContext Context { get; set; }
-        public ContextAdapter AdaptedContext { get; set; }
+        public GameContext Context { get; set; }
+        public ContextAdapter Adapted { get; set; }
 
         // 1. Declaram delegatul si evenimentul ( + clasa de EventArgs )
         public delegate void ChangedContextHandler(object sender, ChangedContextEventArgs e);
@@ -28,23 +28,26 @@ namespace ChessGame
             Context.Layout = new();
 
             Context.Layout.Initialize();
-        }
 
-        public void LoadContext()
-        {
-            Context = (GameContext)JsonConvert.DeserializeObject(GameLoader.fileContent);
+            Adapted = new(Context);
         }
 
         public void Start()
         {
+            if (GameLoader.fileContent != null)
+            {
+                Adapted = new(JsonConvert.DeserializeObject<GameContext>(GameLoader.fileContent));
+            }
+
+            //Adapted.PopulateLayout();
+
+            //Context = Adapted;
+
             // 4. Transmitem parametrii
             ChangedContextEventArgs changedContextArgs = new(Context.Clone());
 
             // 5. Invocam metoda in cazul in care avem ascultatori ( vezi clasa inregistrata ca ascultator )
             ContextChanged?.Invoke(this, changedContextArgs);
-
-            ContextAdapter.AdaptedContext = Context.Clone();
-
         }
 
         public void Board_MoveProposed(object sender, MoveProposedEventArgs e)
@@ -70,8 +73,6 @@ namespace ChessGame
                         Context.ColorToMove = PieceColor.Black;
                     }
                 }
-
-                ContextAdapter.AdaptedContext = Context.Clone();
             }
             catch (System.Exception ex)
             {

@@ -31,11 +31,16 @@ namespace ChessGame
             //throw new Exception("Game could not start. Try again later.");
             try
             {
-                Cleanup();
+                if (GameLoader.fileContent == null)
+                {
+                    Cleanup();
+                }
 
-                Game = new Game();
-
-                Game.Initialize();
+                if (Game == null)
+                {
+                    Game = new Game();
+                    Game.Initialize();
+                }
 
                 Game?.Board?.Reshape(Width, Height - 40, GameToolstrip.Height);
 
@@ -48,19 +53,24 @@ namespace ChessGame
                 Logger.Log(ex);
                 MessageBox.Show("Game could not start");
             }
-
         }
 
         private void SaveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string serializedContext = JsonConvert.SerializeObject(ContextAdapter.AdaptedContext, Formatting.Indented);
+            string serializedContext = JsonConvert.SerializeObject(Game.Referee.Adapted.Context, Formatting.Indented);
 
             GameSaver.Save(serializedContext);
         }
 
         private void LoadToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            GameLoader.Load();
+            if (Game == null)
+            {
+                Game = new Game();
+                Game.Initialize();
+            }
+
+            Game.Loader.Load();
         }
 
         protected override void OnResize(EventArgs e)

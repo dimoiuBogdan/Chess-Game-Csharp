@@ -5,10 +5,15 @@ namespace ChessGame
 {
     public class GameLoader
     {
-        public static string filePath;
+        public string filePath;
         public static string fileContent;
 
-        public static void Load()
+        public GameLoader()
+        {
+
+        }
+
+        public void Load()
         {
             using OpenFileDialog openFileDialog = new();
             openFileDialog.InitialDirectory = "Desktop";

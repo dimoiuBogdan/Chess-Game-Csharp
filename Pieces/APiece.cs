@@ -17,8 +17,8 @@ namespace ChessGame
 
         public APiece(PieceColor color, PieceType type)
         {
-            this.Color = color;
-            this.Type = type;
+            Color = color;
+            Type = type;
         }
 
         public Bitmap GetImage()

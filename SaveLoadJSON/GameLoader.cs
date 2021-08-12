@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using ChessGame.Pieces;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
@@ -12,7 +13,7 @@ namespace ChessGame
         public string filePath;
         public string fileContent;
 
-        public void Load()
+        public void Load(GameContext context)
         {
             using OpenFileDialog openFileDialog = new();
             openFileDialog.InitialDirectory = "Desktop";
@@ -31,11 +32,10 @@ namespace ChessGame
                 using StreamReader reader = new(fileStream);
                 fileContent = reader.ReadToEnd();
             }
-
-            PopulateAdaptedContext();
+            PopulateAdaptedContext(context);
         }
 
-        public void PopulateAdaptedContext()
+        public void PopulateAdaptedContext(GameContext context)
         {
             var deserializedContext = JsonConvert.DeserializeObject<ContextAdapter>(fileContent);
 
@@ -43,7 +43,7 @@ namespace ChessGame
             {
                 foreach (var piece in deserializedContext.AdaptedLayout)
                 {
-                    AdaptedContext.AdaptedLayout.Add(new(new AdaptedCoordinate(piece.Key.X, piece.Key.Y), piece.Value));
+                    context.Layout.Add(Coordinate.GetInstance(piece.Key.X, piece.Key.Y), PieceFactory.GetInstance(piece.Value.Type, piece.Value.Color));
                 }
                 AdaptedContext.ColorToMove = deserializedContext.ColorToMove;
             }

@@ -73,7 +73,13 @@ namespace ChessGame
                 Game.Initialize();
             }
 
-            GameLoader.Load();
+            if(Game.Referee.Context != null)
+            {
+                Game.Referee.Context = new();
+                Game.Referee.Context.Layout = new();
+            }
+
+            GameLoader.Load(Game.Referee.Context);
         }
 
         protected override void OnResize(EventArgs e)

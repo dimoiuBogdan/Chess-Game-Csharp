@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Windows.Forms;
 
 namespace ChessGame
@@ -7,6 +6,8 @@ namespace ChessGame
     public partial class GameForm : Form
     {
         private Game Game { get; set; }
+        public GameSaver GameSaver { get; set; }
+        public GameLoader GameLoader { get; set; }
 
         public GameForm()
         {
@@ -30,16 +31,13 @@ namespace ChessGame
         {
             try
             {
-                if (GameLoader.fileContent == null)
-                {
-                    Cleanup();
-                }
-
                 if (Game == null)
                 {
                     Game = new Game();
                     Game.Initialize();
                 }
+
+                GameSaver = new();
 
                 Game?.Board?.Reshape(Width, Height - 40, GameToolstrip.Height);
 
@@ -56,20 +54,18 @@ namespace ChessGame
 
         private void SaveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SaveFileDialog saveFileWindow = new()
+            if (Game != null && Game.Referee != null && Game.Referee.Context != null)
             {
-                Filter = "json files (*.json)|*.json|All files (*.*)|*.*",
-                DefaultExt = "json",
-                FilterIndex = 1,
-                RestoreDirectory = true,
-                FileName = "Chess Game Context"
-            };
+                GameSaver.PopulateLayout(Game.Referee.Context);
+            }
 
-            if (saveFileWindow.ShowDialog() == DialogResult.OK)
+            if (GameSaver != null)
             {
-                GameSaver.Save(saveFileWindow.FileName);
+                GameSaver.Save();
             }
         }
+
+        // pe y 3 pb, pe y 4 pw, pe 1 2 5 6 gol
 
         private void LoadToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -100,6 +96,8 @@ namespace ChessGame
             {
                 Game.Cleanup();
                 Controls.Remove(Game.Board);
+                GameSaver = null;
+                GameLoader = null;
                 Game.Board = null;
             }
         }

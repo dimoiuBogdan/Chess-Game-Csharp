@@ -1,5 +1,4 @@
 ﻿using ChessGame.Pieces;
-using Newtonsoft.Json;
 using System.Windows.Forms;
 
 namespace ChessGame
@@ -28,19 +27,10 @@ namespace ChessGame
             Context.Layout = new();
 
             Context.Layout.Initialize();
-
-            AdaptedContext = new(Context.Clone());
-            AdaptedContext.PopulateLayout();
         }
 
         public void Start()
         {
-            if (GameLoader.fileContent != null)
-            {
-                AdaptedContext = new(JsonConvert.DeserializeObject<GameContext>(GameLoader.fileContent));
-                AdaptedContext.PopulateContext(Context);
-            }
-
             // 4. Transmitem parametrii
             ChangedContextEventArgs changedContextArgs = new(Context.Clone());
 
@@ -70,9 +60,6 @@ namespace ChessGame
                     {
                         Context.ColorToMove = PieceColor.Black;
                     }
-
-                    AdaptedContext.ReceivedContext = Context.Clone();
-                    AdaptedContext.PopulateLayout();
                 }
             }
             catch (System.Exception ex)

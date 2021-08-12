@@ -1,11 +1,11 @@
 ﻿namespace ChessGame
 {
-    public class AdaptedCoordinates
+    public class AdaptedCoordinate
     {
         public int X { get; set; }
         public int Y { get; set; }
 
-        public AdaptedCoordinates(int x, int y)
+        public AdaptedCoordinate(int x, int y)
         {
             X = x;
             Y = y;

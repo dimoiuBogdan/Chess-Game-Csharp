@@ -43,7 +43,7 @@ namespace ChessGame
             {
                 foreach (var piece in deserializedContext.AdaptedLayout)
                 {
-                    AdaptedContext.AdaptedLayout.Add(new(new AdaptedCoordinates(piece.Key.X, piece.Key.Y), piece.Value));
+                    AdaptedContext.AdaptedLayout.Add(new(new AdaptedCoordinate(piece.Key.X, piece.Key.Y), piece.Value));
                 }
                 AdaptedContext.ColorToMove = deserializedContext.ColorToMove;
             }

@@ -14,15 +14,11 @@ namespace ChessGame
             {
                 foreach (var piece in receivedContext.Layout)
                 {
-                    AdaptedContext.AdaptedLayout.Add(new(new AdaptedCoordinates(piece.Key.X, piece.Key.Y), piece.Value));
+                    AdaptedContext.AdaptedAPiece = new AdaptedAPiece(piece.Value.Color, piece.Value.Type);
+                    AdaptedContext.AdaptedLayout.Add(new(new AdaptedCoordinate(piece.Key.X, piece.Key.Y), new AdaptedAPiece(piece.Value.Color, piece.Value.Type)));
                 }
             }
             AdaptedContext.ColorToMove = receivedContext.ColorToMove;
-
-            foreach (var kvp in AdaptedContext.AdaptedCoordinates)
-            {
-                Logger.Display(string.Format("X = {0}, Y = {1}", kvp.X, kvp.Y));
-            }
         }
 
         public void Save()

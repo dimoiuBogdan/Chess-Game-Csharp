@@ -7,7 +7,7 @@ namespace ChessGame
     {
         private Game Game { get; set; }
         public GameSaver GameSaver { get; set; }
-        public GameLoader GameLoader { get; set; }
+        public GameLoader GameLoader = new();
 
         public GameForm()
         {
@@ -64,8 +64,6 @@ namespace ChessGame
                 GameSaver.Save();
             }
         }
-
-        // pe y 3 pb, pe y 4 pw, pe 1 2 5 6 gol
 
         private void LoadToolStripMenuItem_Click(object sender, EventArgs e)
         {

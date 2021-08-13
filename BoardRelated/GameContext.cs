@@ -8,6 +8,7 @@ namespace ChessGame
         public BoardLayout Layout { get; set; }
         public List<Move> MoveHistory { get; set; }
         public PieceColor ColorToMove = PieceColor.White;
+
         public GameContext()
         {
 

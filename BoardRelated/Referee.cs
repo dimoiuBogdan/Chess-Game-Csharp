@@ -21,16 +21,18 @@ namespace ChessGame
 
         public void Initialize()
         {
-            if(Context == null)
-            {
-                Context = new();
+            Context = new();
 
-                Context.Layout = new();
+            Context.Layout = new();
 
-                Context.MoveHistory = new();
+            Context.MoveHistory = new();
 
-                Context.Layout.Initialize();
-            }
+            Context.Layout.Initialize();
+        }
+
+        public void StartWithContext(GameContext context)
+        {
+            Context = context.Clone();
         }
 
         public void Start()

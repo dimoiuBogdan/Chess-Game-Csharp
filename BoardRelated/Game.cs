@@ -43,7 +43,7 @@ namespace ChessGame
         {
             GameLoader gameLoader = new();
 
-            gameLoader.Load(fileName);
+            Referee.StartWithContext(gameLoader.Load(fileName));
         }
 
         public void Cleanup()

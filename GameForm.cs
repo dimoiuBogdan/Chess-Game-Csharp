@@ -27,15 +27,17 @@ namespace ChessGame
             }
         }
 
+        private bool LoadedExternalContext = false;
         private void StartToolStripMenuItem_Click(object sender, EventArgs e)
         {
             try
             {
-                Game.Cleanup();
-
-                if (Game == null)
+                if (LoadedExternalContext == false)
                 {
+                    Cleanup();
+
                     Game = new Game();
+
                     Game.Initialize();
                 }
 
@@ -89,10 +91,14 @@ namespace ChessGame
 
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
+                    Cleanup();
                     Game = new();
                     Game.Initialize();
 
                     Game.Load(openFileDialog.FileName);
+                    LoadedExternalContext = true;
+
+                    StartToolStripMenuItem_Click(sender, e);
                 }
             }
             catch (Exception ex)
@@ -123,6 +129,7 @@ namespace ChessGame
                 GameSaver = null;
                 GameLoader = null;
                 Game.Board = null;
+                LoadedExternalContext = false;
             }
         }
     }

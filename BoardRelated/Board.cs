@@ -169,7 +169,7 @@ namespace ChessGame
 
         public void DrawPieces(Graphics g)
         {
-            if (Context == null || Context.Layout == null)
+            if (Context == null || Context.Layout == null) // La a doua apasare de start, Context.Layout e null
             {
                 return;
             }
@@ -213,7 +213,6 @@ namespace ChessGame
         {
             if (Context != null && Context.Layout != null)
             {
-                Context.Layout.Cleanup();
                 Context.Layout = null;
             }
         }

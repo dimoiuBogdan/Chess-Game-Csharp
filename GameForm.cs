@@ -7,7 +7,7 @@ namespace ChessGame
     {
         private Game Game { get; set; }
         public GameSaver GameSaver { get; set; }
-        public GameLoader GameLoader = new();
+        public GameLoader GameLoader { get; set; }
 
         public GameForm()
         {
@@ -31,17 +31,17 @@ namespace ChessGame
         {
             try
             {
+                Game.Cleanup();
+
                 if (Game == null)
                 {
                     Game = new Game();
                     Game.Initialize();
                 }
 
-                GameSaver = new();
-
                 Game?.Board?.Reshape(Width, Height - 40, GameToolstrip.Height);
 
-                this.Controls.Add(Game.Board);
+                Controls.Add(Game.Board);
 
                 Game.Start();
             }
@@ -54,32 +54,52 @@ namespace ChessGame
 
         private void SaveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (Game != null && Game.Referee != null && Game.Referee.Context != null)
+            try
             {
-                GameSaver.PopulateLayout(Game.Referee.Context);
-            }
+                SaveFileDialog saveFileWindow = new()
+                {
+                    Filter = "json files (*.json)|*.json|All files (*.*)|*.*",
+                    DefaultExt = "json",
+                    FilterIndex = 1,
+                    RestoreDirectory = true,
+                    FileName = "Chess Game Context"
+                };
 
-            if (GameSaver != null)
+                if (saveFileWindow.ShowDialog() == DialogResult.OK)
+                {
+                    Game?.Save(saveFileWindow.FileName);
+                }
+            }
+            catch (Exception ex)
             {
-                GameSaver.Save();
+                Logger.Log(ex);
+                MessageBox.Show("The context could not be saved");
             }
         }
 
         private void LoadToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (Game == null)
+            try
             {
-                Game = new Game();
-                Game.Initialize();
-            }
+                using OpenFileDialog openFileDialog = new();
+                openFileDialog.InitialDirectory = "Desktop";
+                openFileDialog.Filter = "JSON files (*.json)|*.json|All files (*.*)|*.*";
+                openFileDialog.FilterIndex = 1;
+                openFileDialog.RestoreDirectory = true;
 
-            if(Game.Referee.Context != null)
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    Game = new();
+                    Game.Initialize();
+
+                    Game.Load(openFileDialog.FileName);
+                }
+            }
+            catch (Exception ex)
             {
-                Game.Referee.Context = new();
-                Game.Referee.Context.Layout = new();
+                Logger.Log(ex);
+                MessageBox.Show("Context could not be loaded");
             }
-
-            GameLoader.Load(Game.Referee.Context);
         }
 
         protected override void OnResize(EventArgs e)

@@ -5,7 +5,7 @@ C:\Users\Bogdan\Downloads\ChessGame-master\bin\Debug\net5.0-windows\ChessGame.ru
 C:\Users\Bogdan\Downloads\ChessGame-master\bin\Debug\net5.0-windows\ChessGame.dll
 C:\Users\Bogdan\Downloads\ChessGame-master\bin\Debug\net5.0-windows\ref\ChessGame.dll
 C:\Users\Bogdan\Downloads\ChessGame-master\bin\Debug\net5.0-windows\ChessGame.pdb
-C:\Users\Bogdan\Downloads\ChessGame-master\obj\Debug\net5.0-windows\ChessGame.csproj.AssemblyReference.cache
+C:\Users\Bogdan\Downloads\ChessGame-master\bin\Debug\net5.0-windows\Newtonsoft.Json.dll
 C:\Users\Bogdan\Downloads\ChessGame-master\obj\Debug\net5.0-windows\ChessGame.Board.resources
 C:\Users\Bogdan\Downloads\ChessGame-master\obj\Debug\net5.0-windows\ChessGame.GameForm.resources
 C:\Users\Bogdan\Downloads\ChessGame-master\obj\Debug\net5.0-windows\ChessGame.csproj.GenerateResource.cache
@@ -13,9 +13,9 @@ C:\Users\Bogdan\Downloads\ChessGame-master\obj\Debug\net5.0-windows\ChessGame.Ge
 C:\Users\Bogdan\Downloads\ChessGame-master\obj\Debug\net5.0-windows\ChessGame.AssemblyInfoInputs.cache
 C:\Users\Bogdan\Downloads\ChessGame-master\obj\Debug\net5.0-windows\ChessGame.AssemblyInfo.cs
 C:\Users\Bogdan\Downloads\ChessGame-master\obj\Debug\net5.0-windows\ChessGame.csproj.CoreCompileInputs.cache
+C:\Users\Bogdan\Downloads\ChessGame-master\obj\Debug\net5.0-windows\ChessGame.csproj.CopyComplete
 C:\Users\Bogdan\Downloads\ChessGame-master\obj\Debug\net5.0-windows\ChessGame.dll
 C:\Users\Bogdan\Downloads\ChessGame-master\obj\Debug\net5.0-windows\ref\ChessGame.dll
 C:\Users\Bogdan\Downloads\ChessGame-master\obj\Debug\net5.0-windows\ChessGame.pdb
 C:\Users\Bogdan\Downloads\ChessGame-master\obj\Debug\net5.0-windows\ChessGame.genruntimeconfig.cache
-C:\Users\Bogdan\Downloads\ChessGame-master\bin\Debug\net5.0-windows\Newtonsoft.Json.dll
-C:\Users\Bogdan\Downloads\ChessGame-master\obj\Debug\net5.0-windows\ChessGame.csproj.CopyComplete
+C:\Users\Bogdan\Downloads\ChessGame-master\obj\Debug\net5.0-windows\ChessGame.csproj.AssemblyReference.cache

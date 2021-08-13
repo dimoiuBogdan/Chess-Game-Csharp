@@ -5,15 +5,14 @@ namespace ChessGame
 {
     public class Referee
     {
-        public GameContext Context { get; set; }
-        public ContextAdapter AdaptedContext { get; set; }
+        private GameContext Context { get; set; }
 
         // 1. Declaram delegatul si evenimentul ( + clasa de EventArgs )
         public delegate void ChangedContextHandler(object sender, ChangedContextEventArgs e);
         public event ChangedContextHandler ContextChanged;
 
-        public bool RightCastling { get; set; }
-        public Coordinate RookPosition { get; set; }
+        private bool RightCastling { get; set; }
+        private Coordinate RookPosition { get; set; }
 
         public Referee()
         {
@@ -22,11 +21,16 @@ namespace ChessGame
 
         public void Initialize()
         {
-            Context = new();
+            if(Context == null)
+            {
+                Context = new();
 
-            Context.Layout = new();
+                Context.Layout = new();
 
-            Context.Layout.Initialize();
+                Context.MoveHistory = new();
+
+                Context.Layout.Initialize();
+            }
         }
 
         public void Start()
@@ -36,6 +40,11 @@ namespace ChessGame
 
             // 5. Invocam metoda in cazul in care avem ascultatori ( vezi clasa inregistrata ca ascultator )
             ContextChanged?.Invoke(this, changedContextArgs);
+        }
+
+        public GameContext GetContext()
+        {
+            return Context.Clone();
         }
 
         public void Board_MoveProposed(object sender, MoveProposedEventArgs e)
@@ -51,6 +60,7 @@ namespace ChessGame
                     }
 
                     Context.Layout.Move(e.Move);
+                    Context.MoveHistory.Add(e.Move);
 
                     if (Context.ColorToMove == PieceColor.Black)
                     {

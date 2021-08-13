@@ -16,10 +16,10 @@ namespace ChessGame.Pieces
             if (context.ColorToMove == Color)
             {
                 Coordinate c;
-                
+
                 // ROOK MOVES
                 // dreapta
-                for (int i = 1; i < 7; i++)
+                for (int i = 1; i <= 7; i++)
                 {
                     if (source.X + i < 0 || source.X + i > 7 || source.Y < 0 || source.Y > 7)
                     {
@@ -40,7 +40,7 @@ namespace ChessGame.Pieces
                 }
 
                 // stanga
-                for (int i = 1; i < 7; i++)
+                for (int i = 1; i <= 7; i++)
                 {
                     if (source.X - i < 0 || source.X - i > 7 || source.Y < 0 || source.Y > 7)
                     {
@@ -61,7 +61,7 @@ namespace ChessGame.Pieces
                 }
 
                 // sus
-                for (int i = 1; i < 7; i++)
+                for (int i = 1; i <= 7; i++)
                 {
                     if (source.X < 0 || source.X > 7 || source.Y - i < 0 || source.Y - i > 7)
                     {
@@ -82,7 +82,7 @@ namespace ChessGame.Pieces
                 }
 
                 // jos
-                for (int i = 1; i < 7; i++)
+                for (int i = 1; i <= 7; i++)
                 {
                     if (source.X < 0 || source.X > 7 || source.Y + i < 0 || source.Y + i > 7)
                     {
@@ -104,7 +104,7 @@ namespace ChessGame.Pieces
 
                 // BISHOP MOVES
                 // dreapta sus
-                for (int i = 1; i < 7; i++)
+                for (int i = 1; i <= 7; i++)
                 {
                     if (source.X + i < 0 || source.X + i > 7 || source.Y - i < 0 || source.Y - i > 7)
                     {
@@ -124,7 +124,7 @@ namespace ChessGame.Pieces
                     availableMoves.Add(c);
                 }
                 // dreapta jos
-                for (int i = 1; i < 7; i++)
+                for (int i = 1; i <= 7; i++)
                 {
                     if (source.X + i < 0 || source.X + i > 7 || source.Y + i < 0 || source.Y + i > 7)
                     {
@@ -144,7 +144,7 @@ namespace ChessGame.Pieces
                     availableMoves.Add(c);
                 }
                 // stanga sus
-                for (int i = 1; i < 7; i++)
+                for (int i = 1; i <= 7; i++)
                 {
                     if (source.X - i < 0 || source.X - i > 7 || source.Y - i < 0 || source.Y - i > 7)
                     {
@@ -164,7 +164,7 @@ namespace ChessGame.Pieces
                     availableMoves.Add(c);
                 }
                 // stanga jos
-                for (int i = 1; i < 7; i++)
+                for (int i = 1; i <= 7; i++)
                 {
                     if (source.X - i < 0 || source.X - i > 7 || source.Y + i < 0 || source.Y + i > 7)
                     {

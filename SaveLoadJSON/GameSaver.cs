@@ -1,44 +1,47 @@
 ﻿using Newtonsoft.Json;
 using System.IO;
-using System.Windows.Forms;
 
 namespace ChessGame
 {
     public class GameSaver
     {
-        public ContextAdapter AdaptedContext = new();
-
-        public void PopulateLayout(GameContext receivedContext)
+        private ContextAdapter PopulateAdaptedContext(GameContext receivedContext)
         {
+            ContextAdapter adaptedContext = new();
+            adaptedContext.AdaptedLayout = new();
+            adaptedContext.AdaptedMoves = new();
+
             if (receivedContext != null && receivedContext.Layout != null)
             {
                 foreach (var piece in receivedContext.Layout)
                 {
-                    AdaptedContext.AdaptedAPiece = new AdaptedAPiece(piece.Value.Color, piece.Value.Type);
-                    AdaptedContext.AdaptedLayout.Add(new(new AdaptedCoordinate(piece.Key.X, piece.Key.Y), new AdaptedAPiece(piece.Value.Color, piece.Value.Type)));
+                    adaptedContext.AdaptedAPiece = new AdaptedAPiece(piece.Value.Color, piece.Value.Type);
+                    adaptedContext.AdaptedLayout.Add(new(new AdaptedCoordinate(piece.Key.X, piece.Key.Y), new AdaptedAPiece(piece.Value.Color, piece.Value.Type)));
                 }
             }
-            AdaptedContext.ColorToMove = receivedContext.ColorToMove;
+
+            if(receivedContext != null && receivedContext.MoveHistory != null)
+            {
+                foreach (var move in receivedContext.MoveHistory)
+                {
+                    var newAdaptedMove = new AdaptedMove(new AdaptedCoordinate(move.Source.X, move.Source.Y), new AdaptedCoordinate(move.Target.X, move.Target.Y));
+                    adaptedContext.AdaptedMoves.Add(newAdaptedMove);
+                }
+            }
+
+            adaptedContext.ColorToMove = receivedContext.ColorToMove;
+
+            return adaptedContext;
         }
 
-        public void Save()
+        public void Save(GameContext context, string fileName)
         {
-            SaveFileDialog saveFileWindow = new()
-            {
-                Filter = "json files (*.json)|*.json|All files (*.*)|*.*",
-                DefaultExt = "json",
-                FilterIndex = 1,
-                RestoreDirectory = true,
-                FileName = "Chess Game Context"
-            };
+            var adaptedContext = PopulateAdaptedContext(context);
 
-            if (saveFileWindow.ShowDialog() == DialogResult.OK)
-            {
-                string serializedContext = JsonConvert.SerializeObject(AdaptedContext, Formatting.Indented);
+            string serializedContext = JsonConvert.SerializeObject(adaptedContext, Formatting.Indented);
 
-                using StreamWriter sw = new(saveFileWindow.FileName);
-                sw.Write(serializedContext);
-            }
+            using StreamWriter sw = new(fileName);
+            sw.Write(serializedContext);
         }
     }
 }

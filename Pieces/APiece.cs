@@ -1,7 +1,7 @@
 ﻿using ChessGame.Pieces;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Reflection;
-using System.Collections.Generic;
 
 namespace ChessGame
 {
@@ -23,7 +23,7 @@ namespace ChessGame
 
         public Bitmap GetImage()
         {
-            if(_imagesPool == null)
+            if (_imagesPool == null)
             {
                 _imagesPool = new Dictionary<PieceColor, Dictionary<PieceType, Bitmap>>();
             }

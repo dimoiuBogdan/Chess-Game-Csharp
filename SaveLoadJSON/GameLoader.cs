@@ -35,6 +35,11 @@ namespace ChessGame
                 context.Layout.Add(Coordinate.GetInstance(piece.Key.X, piece.Key.Y), PieceFactory.GetInstance(piece.Value.Type, piece.Value.Color));
             }
 
+            foreach (var move in deserializedContext.AdaptedMoves)
+            {
+                context.MoveHistory.Add(new Move(Coordinate.GetInstance(move.Source.X, move.Source.Y), Coordinate.GetInstance(move.Target.X, move.Target.Y)));
+            }
+
             context.ColorToMove = deserializedContext.ColorToMove;
 
             return context;

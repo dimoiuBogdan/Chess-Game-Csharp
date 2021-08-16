@@ -10,8 +10,6 @@ namespace ChessGame
         private GameContext LoadedContext { get; set; }
         private GameContext RunningContext { get; set; }
 
-
-
         public MovePlayer(GameContext loadedContext, Referee referee)
         {
             LoadedContext = loadedContext;
@@ -20,8 +18,6 @@ namespace ChessGame
 
         public void Initialize()
         {
-            Cleanup();
-
             RunningContext = new();
             RunningContext.MoveHistory = new();
             RunningContext.Layout = new();
@@ -30,11 +26,14 @@ namespace ChessGame
 
         public void ReplayMoves()
         {
+            Cleanup();
+
             Initialize();
 
             Worker = new();
             Worker.DoWork += Worker_DoWork;
             Worker.ProgressChanged += Worker_ProgressChanged;
+            Worker.RunWorkerCompleted += Worker_RunWorkerCompleted;
             Worker.WorkerReportsProgress = true;
             Worker.RunWorkerAsync();
         }
@@ -43,24 +42,30 @@ namespace ChessGame
         {
             Worker.ReportProgress(0);
 
-            int i = 1, percent;
+            int i = 1;
+            Board.IsLoading = true;
             foreach (Move move in LoadedContext.MoveHistory)
             {
-                Thread.Sleep(2000);
+                Thread.Sleep(1000);
 
                 RunningContext.Layout.Move(move);
 
                 RunningContext.MoveHistory.Add(move);
 
-                percent = i++ * 100 / LoadedContext.MoveHistory.Count;
+                RunningContext.ColorToMove = RunningContext.ColorToMove == Pieces.PieceColor.Black ? Pieces.PieceColor.White : Pieces.PieceColor.Black;
 
-                Worker.ReportProgress(percent);
+                Worker.ReportProgress(i++ * 100 / LoadedContext.MoveHistory.Count);
             }
         }
 
         private void Worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             Referee.StartWithContext(RunningContext);
+        }
+
+        private void Worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            Board.IsLoading = false;
         }
 
         public void Cleanup()
@@ -76,7 +81,7 @@ namespace ChessGame
                 Worker = null;
             }
 
-            if(RunningContext != null)
+            if (RunningContext != null)
             {
                 RunningContext.Layout.Cleanup();
                 RunningContext.Layout = null;

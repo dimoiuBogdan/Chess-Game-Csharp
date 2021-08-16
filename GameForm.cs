@@ -39,18 +39,21 @@ namespace ChessGame
         {
             try
             {
-                SaveFileDialog saveFileWindow = new()
+                if (Game?.Referee.GetContext() != null)
                 {
-                    Filter = "json files (*.json)|*.json|All files (*.*)|*.*",
-                    DefaultExt = "json",
-                    FilterIndex = 1,
-                    RestoreDirectory = true,
-                    FileName = "Chess Game Context"
-                };
+                    SaveFileDialog saveFileWindow = new()
+                    {
+                        Filter = "json files (*.json)|*.json|All files (*.*)|*.*",
+                        DefaultExt = "json",
+                        FilterIndex = 1,
+                        RestoreDirectory = true,
+                        FileName = "Chess Game Context"
+                    };
 
-                if (saveFileWindow.ShowDialog() == DialogResult.OK)
-                {
-                    Game?.Save(saveFileWindow.FileName);
+                    if (saveFileWindow.ShowDialog() == DialogResult.OK)
+                    {
+                        Game?.Save(saveFileWindow.FileName);
+                    }
                 }
             }
             catch (Exception ex)
@@ -128,7 +131,7 @@ namespace ChessGame
             catch (Exception ex)
             {
                 Logger.Log(ex);
-                MessageBox.Show(ex.Message);
+                MessageBox.Show("You can't replay this context");
             }
         }
 
@@ -149,11 +152,12 @@ namespace ChessGame
         {
             if (Game != null && Game.Board != null)
             {
-                Game.Cleanup();
                 Controls.Remove(Game.Board);
+                Game.Cleanup();
                 GameSaver = null;
                 GameLoader = null;
                 Game.Board = null;
+                Game = null;
             }
         }
     }

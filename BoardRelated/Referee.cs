@@ -24,10 +24,9 @@ namespace ChessGame
             Context = new();
 
             Context.Layout = new();
+            Context.Layout.Initialize();
 
             Context.MoveHistory = new();
-
-            Context.Layout.Initialize();
         }
 
         public void StartWithContext(GameContext context)
@@ -65,14 +64,7 @@ namespace ChessGame
                     Context.Layout.Move(e.Move);
                     Context.MoveHistory.Add(e.Move);
 
-                    if (Context.ColorToMove == PieceColor.Black)
-                    {
-                        Context.ColorToMove = PieceColor.White;
-                    }
-                    else
-                    {
-                        Context.ColorToMove = PieceColor.Black;
-                    }
+                    Context.ColorToMove = Context.ColorToMove == PieceColor.Black ? PieceColor.White : PieceColor.Black;
                 }
             }
             catch (System.Exception ex)
@@ -114,8 +106,10 @@ namespace ChessGame
         public void Cleanup()
         {
             Context.Layout.Cleanup();
-
             Context.Layout = null;
+
+            Context.MoveHistory.Clear();
+            Context.MoveHistory = null;
 
             Context = null;
         }

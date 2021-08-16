@@ -86,6 +86,7 @@ namespace ChessGame
             Refresh();
         }
 
+        public static bool IsLoading = false;
         private void Board_MouseDown(object sender, MouseEventArgs e)
         {
             if (Context == null || Context.Layout == null)
@@ -96,7 +97,7 @@ namespace ChessGame
             var coordinateX = e.X / CellSize;
             var coordinateY = e.Y / CellSize;
 
-            if (coordinateX < 8 && coordinateY < 8 && coordinateX >= 0 && coordinateY >= 0 && e.Button == MouseButtons.Left)
+            if (!IsLoading && coordinateX < 8 && coordinateY < 8 && coordinateX >= 0 && coordinateY >= 0 && e.Button == MouseButtons.Left)
             {
                 if (Context.Layout.ContainsKey(Coordinate.GetInstance(coordinateX, coordinateY)))
                 {
@@ -182,9 +183,7 @@ namespace ChessGame
 
         public void DrawAvailableMoves(Graphics g)
         {
-            //throw new System.Exception("Available moves could not be drawn");
-
-            if (AvailableMoves != null)
+            if (AvailableMoves != null && !IsLoading)
             {
                 foreach (var availableMove in AvailableMoves)
                 {
@@ -213,7 +212,9 @@ namespace ChessGame
         {
             if (Context != null && Context.Layout != null)
             {
+                Context.Layout.Clear();
                 Context.Layout = null;
+                Context = null;
             }
         }
     }

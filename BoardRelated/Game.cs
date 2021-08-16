@@ -42,8 +42,18 @@ namespace ChessGame
         public void Load(string fileName)
         {
             GameLoader gameLoader = new();
+            GameContext deserializedContext = gameLoader.Load(fileName);
 
-            Referee.StartWithContext(gameLoader.Load(fileName));
+            Referee.StartWithContext(deserializedContext);
+        }
+
+        public void Replay(string fileName)
+        {
+            GameLoader gameLoader = new();
+            GameContext deserializedContext = gameLoader.Load(fileName);
+            MovePlayer movePlayer = new(deserializedContext, Referee);
+
+            movePlayer.ReplayMoves();
         }
 
         public void Cleanup()

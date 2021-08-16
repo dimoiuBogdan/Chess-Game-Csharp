@@ -35,6 +35,7 @@ namespace ChessGame
             this.StartToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SaveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.LoadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ReplayToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ExitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.GameToolstrip.SuspendLayout();
             this.SuspendLayout();
@@ -57,6 +58,7 @@ namespace ChessGame
             this.StartToolStripMenuItem,
             this.SaveToolStripMenuItem,
             this.LoadToolStripMenuItem,
+            this.ReplayToolStripMenuItem,
             this.ExitToolStripMenuItem});
             this.Menu.Image = ((System.Drawing.Image)(resources.GetObject("Menu.Image")));
             this.Menu.ImageTransparentColor = System.Drawing.Color.Magenta;
@@ -85,11 +87,18 @@ namespace ChessGame
             this.LoadToolStripMenuItem.Text = "Load";
             this.LoadToolStripMenuItem.Click += new System.EventHandler(this.LoadToolStripMenuItem_Click);
             // 
+            // ReplayToolStripMenuItem
+            // 
+            this.ReplayToolStripMenuItem.Name = "ReplayToolStripMenuItem";
+            this.ReplayToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.ReplayToolStripMenuItem.Text = "Replay";
+            this.ReplayToolStripMenuItem.Click += new System.EventHandler(this.ReplayToolStripMenuItem_Click);
+            // 
             // ExitToolStripMenuItem
             // 
             this.ExitToolStripMenuItem.Name = "ExitToolStripMenuItem";
             this.ExitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.ExitToolStripMenuItem.Text = "&Exit";
+            this.ExitToolStripMenuItem.Text = "Exit";
             this.ExitToolStripMenuItem.Click += new System.EventHandler(this.ExitToolStripMenuItem_Click);
             // 
             // GameForm
@@ -115,6 +124,7 @@ namespace ChessGame
         private System.Windows.Forms.ToolStripMenuItem StartToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem SaveToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem LoadToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ReplayToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ExitToolStripMenuItem;
     }
 }

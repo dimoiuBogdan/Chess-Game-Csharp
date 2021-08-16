@@ -33,6 +33,7 @@ namespace ChessGame
         public void StartWithContext(GameContext context)
         {
             Context = context.Clone();
+            Start();
         }
 
         public void Start()

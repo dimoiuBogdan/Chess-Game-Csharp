@@ -28,9 +28,9 @@ namespace ChessGame
 
         public void Initialize()
         {
-            this.MouseMove += Board_MouseMove;
-            this.MouseDown += Board_MouseDown;
-            this.MouseUp += Board_MouseUp;
+            MouseMove += Board_MouseMove;
+            MouseDown += Board_MouseDown;
+            MouseUp += Board_MouseUp;
 
             DoubleBuffered = true;
         }
